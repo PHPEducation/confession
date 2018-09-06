@@ -23,7 +23,7 @@
     <li>Can manage (add, delete) confession, topic, post</li>
 </ul>
 <hr>
-<h2>Other requirement
+<h2>Other requirement</h2>
 <ul>
     <li>Can comment image (or icon like chatpp)</li>
     <li>Can share post to fb</li>
