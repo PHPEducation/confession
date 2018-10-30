@@ -1,0 +1,20 @@
+{
+  "name": "confession",
+  "description": "",
+  "main": "",
+  "authors": [
+    "NguyenCongViet <Viet27.it@gmail.com>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/NguyenCongViet/confession",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "demo-bower": "https://github.com/NguyenCongViet/bower_confession.git"
+  }
+}
