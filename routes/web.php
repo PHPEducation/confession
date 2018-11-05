@@ -15,10 +15,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::resource('/cfs', 'User\HomeController');
-
-Route::resource('/confession', 'User\ConfessionController');
-
 //*************** Phan Admin *****************
 //login
 Route::get('admin/login', [
@@ -60,4 +56,19 @@ Route::group(['prefix' => 'admin', 'middleware' => ['adminLogin', 'locale']], fu
 
     //posts
     Route::resource('posts', 'admin\PostController')->except(['create', 'store', 'edit', 'update']);
+});
+
+Route::group(['prefix' => 'cfs'], function () {
+    Route::get('/', 'User\HomeController@index')->name('cfs');
+
+    Route::get('/login', 'User\LoginController@loginForm')->name('user.login_form');
+
+    Route::post('/login', 'User\LoginController@login')->name('user.login');
+
+    Route::get('/logout', 'User\LoginController@logout')->name('user.logout');
+
+    Route::get('/register', 'User\RegisterController@registerForm')->name('user.register_form');
+
+    Route::post('/register', 'User\RegisterController@register')->name('user.register');
+
 });
