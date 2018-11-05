@@ -13,3 +13,6 @@ yarn-error.log
 .env
 .phpunit.result.cache
 /public/bower_components
+/public/css
+/public/img
+/public/js
