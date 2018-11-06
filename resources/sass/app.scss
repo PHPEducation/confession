@@ -1,9 +1,6 @@
 // Fonts
-
 // Variables
 @import 'variables';
-// Bootstrap
-@import '~bootstrap/scss/bootstrap';
 
 .navbar-laravel {
     background-color: #fff;
@@ -85,13 +82,209 @@
     color: blue !important;
     cursor: pointer;
 }
+
 .modal {
     .fade {
         display: none;
     }
 }
+
 .close {
     .fileinput-exists {
         float: none;
     }
+}
+
+li {
+    .height-ul {
+        height: 275px;
+    }
+}
+
+div {
+    .padding-top-ul {
+        padding-top: 20px;
+    }
+    a {
+        .resize_logo_img {
+            max-width: 100%;
+            max-height: 100%;
+            position: absolute;
+            left: 15px;
+            top: 15px;
+            bottom: 15px;
+            vertical-align: middle;
+            margin: auto;
+            z-index: 55;
+        }
+    }
+}
+
+.margin_bottom {
+    margin-bottom: 15px;
+}
+
+.fix_float {
+    float: right;
+}
+
+.display_form {
+    display: inline;
+}
+
+// Vars and Reset
+//
+$theme: #454cad;
+$dark-text: #5f6982;
+
+// Upload Demo
+//
+.uploader {
+    display: block;
+    clear: both;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 600px;
+    label {
+        float: left;
+        clear: both;
+        width: 100%;
+        padding: 2rem 1.5rem;
+        text-align: center;
+        background: #fff;
+        border-radius: 7px !important;
+        border: 3px solid #eee;
+        transition: all .2s ease;
+        user-select: none;
+        &:hover {
+            border-color: $theme;
+        }
+        &.hover {
+            border: 3px solid $theme;
+            box-shadow: inset 0 0 0 6px #eee;
+            #start {
+                i.fa {
+                    transform: scale(0.8);
+                    opacity: 0.3;
+                }
+            }
+        }
+    }
+    #start {
+        float: left;
+        clear: both;
+        width: 100%;
+        &.hidden {
+            display: none;
+        }
+        i.fa {
+            font-size: 50px;
+            margin-bottom: 1rem;
+            transition: all .2s ease-in-out;
+        }
+    }
+    #response {
+        float: left;
+        clear: both;
+        width: 100%;
+        &.hidden {
+            display: none;
+        }
+        #messages {
+            margin-bottom: .5rem;
+        }
+    }
+    #file-image {
+        display: inline;
+        margin: 0 auto .5rem auto;
+        width: auto;
+        height: auto;
+        max-width: 450px;
+        &.hidden {
+            display: none;
+        }
+    }
+    #notimage {
+        display: block;
+        float: left;
+        clear: both;
+        width: 100%;
+        &.hidden {
+            display: none;
+        }
+    }
+    progress, .progress {
+        // appearance: none;
+        display: inline;
+        clear: both;
+        margin: 0 auto;
+        width: 100%;
+        max-width: 180px;
+        height: 8px;
+        border: 0;
+        border-radius: 4px;
+        background-color: #eee;
+        overflow: hidden;
+    }
+    .progress[value]::-webkit-progress-bar {
+        border-radius: 4px;
+        background-color: #eee;
+    }
+    .progress[value]::-webkit-progress-value {
+        background: linear-gradient(to right, darken($theme, 8%) 0%, $theme 50%);
+        border-radius: 4px;
+    }
+    .progress[value]::-moz-progress-bar {
+        background: linear-gradient(to right, darken($theme, 8%) 0%, $theme 50%);
+        border-radius: 4px;
+    }
+    input[type="file"] {
+        display: none;
+    }
+    div {
+        margin: 0 0 .5rem 0;
+        color: $dark-text;
+    }
+    .btn {
+        display: inline-block;
+        margin: .5rem .5rem 1rem .5rem;
+        clear: both;
+        font-family: inherit;
+        font-weight: 700;
+        font-size: 14px;
+        text-decoration: none;
+        text-transform: initial;
+        border: none;
+        border-radius: .2rem;
+        outline: none;
+        padding: 0 1rem;
+        height: 36px;
+        line-height: 36px;
+        color: #fff;
+        transition: all 0.2s ease-in-out;
+        box-sizing: border-box;
+        background: $theme;
+        border-color: $theme;
+        cursor: pointer;
+    }
+}
+
+.fix_text_file {
+    line-height: 2.5 !important;
+    border-radius: 5px !important;
+}
+
+.padding-left {
+    padding-left: 30px !important;
+}
+
+tr {
+    .fix_size_image {
+        height: auto;
+        width: 60%;
+    }
+}
+
+.hidden {
+    display: none;
 }

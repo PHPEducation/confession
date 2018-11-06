@@ -18,7 +18,7 @@
                     <i class="icon-close"></i>
                 </a>
                 <div class="input-group">
-                    {{ Form::text('search', ['class' => 'form-control']) }}
+                    {!! Form::text('search', null, ['class' => 'form-control', 'placeholder' => trans('message.search')]) !!}
                     <span class="input-group-btn">
                         <a href="javascript:" class="btn submit">
                             <i class="icon-magnifier"></i>

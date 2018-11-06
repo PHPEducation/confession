@@ -42,6 +42,7 @@
     <!-- BEGIN PAGE LEVEL STYLES -->
     <link href="{{ asset('bower_components/demo-bower/confession/admin/assets/pages/css/login-3.min.css') }}"
           rel="stylesheet" type="text/css"/>
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet" type="text/css"/>
     <!-- END PAGE LEVEL STYLES -->
     <!-- END HEAD -->
 
@@ -133,5 +134,7 @@
                 });
             })
         </script>
+    </div>
+</div>
 </body>
 </html>

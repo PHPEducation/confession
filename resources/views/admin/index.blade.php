@@ -191,7 +191,7 @@
         type="text/javascript"></script>
 <!-- END THEME LAYOUT SCRIPTS -->
 {{--<script src="{{ asset('js/admin.js') }}" type="text/javascript"></script>--}}
-<script src="{{ asset('js/app.js') }}"></script>
+{{--<script src="{{ asset('js/app.js') }}"></script>--}}
 @yield('script')
 <script>
     $(document).ready(function () {
