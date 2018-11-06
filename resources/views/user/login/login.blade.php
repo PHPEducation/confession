@@ -13,7 +13,7 @@
                 <div class="signin-content">
                     <div class="signin-image">
                         <figure>
-                            {{ Html::image(asset(config('common.images' . 'signin-image.ipg')), '') }}
+                            {{ Html::image(asset(config('common.img') . 'signin-image.jpg'), '') }}
                         </figure>
                         <a href="{{ route('user.register_form') }}" class="signup-image-link">{{ __('message.create_account') }}</a>
                     </div>

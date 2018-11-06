@@ -11,6 +11,10 @@ use Validator;
 
 class LoginController extends Controller
 {
+    //đăng nhập quá 3 lần thì sẽ bị block đăng nhập trong 10s
+    protected $maxAttempts = 3;
+    protected $decayMinutes = 10;
+
     public function __construct()
     {
         // $this->middleware('auth');

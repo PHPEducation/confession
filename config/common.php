@@ -9,6 +9,7 @@ return [
     'img' => 'img/',
     'images_confession' => 'images/confession/',
     'uploads' => 'uploads/',
-    'images' => 'images/'
+    'images' => 'images/',
+    'css' => 'css/'
 ];
 ?>

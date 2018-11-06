@@ -52,13 +52,13 @@
                             @endif
                         </div>
                         <div class="form-group form-button">
-                            {{ Form::submit('Register', ['name' => 'signup', 'id' => 'signup', 'class' => 'form-submit']) }}
+                            {{ Form::submit(__('message.register'), ['name' => 'signup', 'id' => 'signup', 'class' => 'form-submit']) }}
                         </div>
                         {{ Form::close() }}
                     </div>
                     <div class="signup-image">
                         <figure>
-                            {{ Html::image(asset(config('common.images' . 'signup-image.ipg')), '') }}
+                            {{ Html::image(asset(config('common.img') . 'signup-image.jpg'), '') }}
                         </figure>
                         <a href="" class="signup-image-link">{{ __('message.ready') }}</a>
                     </div>

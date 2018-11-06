@@ -2,6 +2,9 @@
 // Variables
 @import 'variables';
 
+// Bootstrap
+//@import '~bootstrap/scss/bootstrap';
+
 .navbar-laravel {
     background-color: #fff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
@@ -22,28 +25,12 @@
         text-align: center;
         li {
             display: inline-block;
-            a {
-                background: #ef4050;
-                font-size: 20px;
-                color: #fff;
-                transition: all .35s ease 0s;
-                display: block;
-                width: 40px;
-                height: 40px;
-                line-height: 40px;
-                border-radius: 50%;
-                margin-right: 7px;
-                :hover {
-                    background: #fff;
-                    color: #000;
-                }
-            }
         }
     }
     .title {
         margin: 0;
         position: absolute;
-        background: #ef4050;
+        background: #2fa9af;
         font-size: 20px;
         color: #fff;
         padding: 5px 7px;
@@ -69,13 +56,13 @@
         transform-origin: center top 0;
         transition: all .5s ease 0s;
     }
-    :hover .box-content {
-        opacity: 1;
-        transform: perspective(400px) rotateX(0);
-    }
-    :hover .title {
-        bottom: -40px;
-    }
+}
+.box8:hover .box-content {
+    opacity: 1;
+    transform: perspective(400px) rotateX(0)
+}
+.box8:hover .title{
+    bottom:-40px
 }
 
 .color {
@@ -287,4 +274,8 @@ tr {
 
 .hidden {
     display: none;
+}
+
+.nav-logo img {
+    width: 100%;
 }
