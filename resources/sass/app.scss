@@ -1,14 +1,97 @@
-
 // Fonts
-@import url('https://fonts.googleapis.com/css?family=Nunito');
 
 // Variables
 @import 'variables';
-
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
 .navbar-laravel {
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+.box8 {
+    box-shadow: 0 0 3px rgba(0, 0, 0, .3);
+    position: relative;
+    overflow: hidden;
+    .icon {
+        margin: 0;
+        position: absolute;
+        list-style: none;
+        padding: 0;
+        top: 42%;
+        left: 0;
+        right: 0;
+        text-align: center;
+        li {
+            display: inline-block;
+            a {
+                background: #ef4050;
+                font-size: 20px;
+                color: #fff;
+                transition: all .35s ease 0s;
+                display: block;
+                width: 40px;
+                height: 40px;
+                line-height: 40px;
+                border-radius: 50%;
+                margin-right: 7px;
+                :hover {
+                    background: #fff;
+                    color: #000;
+                }
+            }
+        }
+    }
+    .title {
+        margin: 0;
+        position: absolute;
+        background: #ef4050;
+        font-size: 20px;
+        color: #fff;
+        padding: 5px 7px;
+        border-radius: 5px;
+        font-weight: 600;
+        bottom: 20px;
+        left: 20px;
+        transition: all .9s ease 0s;
+    }
+    img {
+        width: 100%;
+        height: auto;
+    }
+    .box-content {
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, .6);
+        opacity: 0;
+        position: absolute;
+        top: 0;
+        left: 0;
+        transform: perspective(400px) rotateX(-90deg);
+        transform-origin: center top 0;
+        transition: all .5s ease 0s;
+    }
+    :hover .box-content {
+        opacity: 1;
+        transform: perspective(400px) rotateX(0);
+    }
+    :hover .title {
+        bottom: -40px;
+    }
+}
+
+.color {
+    color: blue !important;
+    cursor: pointer;
+}
+.modal {
+    .fade {
+        display: none;
+    }
+}
+.close {
+    .fileinput-exists {
+        float: none;
+    }
 }
