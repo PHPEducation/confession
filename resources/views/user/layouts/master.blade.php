@@ -8,7 +8,7 @@
     <title>F_Confession</title>
 
     <!-- Favicon -->
-    <link rel="shortcut icon" href="{{ asset('images/icon.png') }}">
+    <link rel="shortcut icon" href="{{ asset(config('common.img') . 'icon.png') }}">
 
     <!-- core dependcies css -->
     <link rel="stylesheet" href="{{ asset('bower_components/demo-bower/confession/user/css/bootstrap.css') }}"/>
@@ -25,6 +25,7 @@
     <link href="{{ asset('bower_components/demo-bower/confession/user/css/materialdesignicons.min.css') }}" rel="stylesheet">
     <link href="{{ asset('bower_components/demo-bower/confession/user/css/animate.min.css') }}" rel="stylesheet">
     <link href="{{ asset('bower_components/demo-bower/confession/user/css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 
 <body>
@@ -35,7 +36,7 @@
             <div class="header-container">
                 <div class="nav-logo">
                     <a href="{{ route('cfs') }}">
-                        {{ Html::image(asset(config('common.images') . 'logo.png'), 'alt' ) }}
+                        {{ Html::image(asset(config('common.img') . 'framgia3.png'), 'F-Confession' ) }}
                     </a>
                 </div>
                 <ul class="nav-right">
@@ -81,7 +82,7 @@
                         @if (Auth::check())
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 @if (Auth::user()->images == null)
-                                    {{ Html::image(asset(config('common.images') . 'avatar-5.png'), Auth::user()->name, ['class' => 'profile-img img-fluid']) }}
+                                    {{ Html::image(asset(config('common.img') . 'avatar-5.png'), Auth::user()->name, ['class' => 'profile-img img-fluid']) }}
                                 @else
                                     {{ Html::image(Auth::user()->images, Auth::user()->name, ['class' => 'profile-img img-fluid']) }}
                                 @endif
@@ -92,7 +93,7 @@
                                         <li class="list-item p-15">
                                             <div class="media-img">
                                                 @if (Auth::user()->images == null)
-                                                    {{ Html::image(asset(config('common.images') . 'avatar-5.png'), Auth::user()->name, ['class' => 'profile-img img-fluid']) }}
+                                                    {{ Html::image(asset(config('common.img') . 'avatar-5.png'), Auth::user()->name, ['class' => 'profile-img img-fluid']) }}
                                                 @else
                                                     {{ Html::image(Auth::user()->images, Auth::user()->name, ['class' => 'profile-img img-fluid']) }}
                                                 @endif
