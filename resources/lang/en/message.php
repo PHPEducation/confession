@@ -113,7 +113,9 @@ return [
     'framgia_cfs' => 'Framgia Confession!',
     'copyright' => '2018 &copy; Framgia - Admin Dashboard Confession.',
     'en' => 'English',
-    'vi' => 'Việt Nam',
+    'vi' => 'Vietnamese',
     'profile' => 'My Profile',
     'logout' => 'Log Out',
+    'search' => 'Search',
+    'danger' => 'login failed, account does not exist..!',
 ];
