@@ -6,9 +6,9 @@ return [
     'uploads' => 'uploads/',
     'images' => 'images/',
     'css' => 'css/',
-
     'image_paths' => [
         'post' => 'storage/images/post/',
     ],
+    'topics' => 'storage/images/topics/',
 ];
 ?>
