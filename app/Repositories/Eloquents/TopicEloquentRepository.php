@@ -19,6 +19,12 @@ class TopicEloquentRepository extends AbstractEloquentRepository implements Topi
         return $this->model()->all();
     }
 
+    public function all($data = [])
+    {
+        return $this->model()->all()->pluck('name', 'id');
+    }
+
+
     public function store($data = [])
     {
         return $this->model()->create($data);
