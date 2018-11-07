@@ -50,7 +50,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['adminLogin', 'locale']], fu
     Route::post('topics/bulk_update', ['as' => 'topics/bulk_update', 'uses' => 'admin\TopicController@bulkUpdate']);
 
     //posts
-    Route::resource('posts', 'admin\PostController')->except(['create', 'store', 'edit', 'update']);
+    Route::get('posts', ['as' => 'postAdmin', 'uses' => 'admin\PostController@index']);
+    Route::get('posts/{id?}', ['as' => 'postShowAdmin', 'uses' => 'admin\PostController@show']);
+    Route::delete('posts/{id?}/delete', ['as' => 'postDelAdmin', 'uses' => 'admin\PostController@destroy']);
 });
 
 Route::group(['prefix' => 'cfs'], function () {

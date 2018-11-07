@@ -68,9 +68,9 @@ class Post extends Model
      * Get topics: One to many
      * @return [type] [description]
      */
-    public function topics()
+    public function topic()
     {
-        return $this->belongsTo('App\Models\Topic', 'post_id');
+        return $this->belongsTo('App\Models\Topic');
     }
 
     /**
