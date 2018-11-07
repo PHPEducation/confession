@@ -66,4 +66,6 @@ Route::group(['prefix' => 'cfs'], function () {
 
     Route::post('/register', 'User\RegisterController@register')->name('user.register');
 
+    Route::resource('/posts', 'User\PostController');
+
 });

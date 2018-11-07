@@ -20,6 +20,12 @@ class PostEloquentRepository extends AbstractEloquentRepository implements PostR
         return $this->model()->all();
     }
 
+    public function store($data = [])
+    {
+        // TODO: Implement store() method.
+        return $this->model()->create($data);
+    }
+
     public function show($id)
     {
         // TODO: Implement show() method.
