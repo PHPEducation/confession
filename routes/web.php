@@ -47,7 +47,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['adminLogin', 'locale']], fu
     Route::resource('topics', 'admin\TopicController');
     Route::put('topics/{id?}/edit', ['as' => 'topics/updateAll', 'uses' => 'admin\TopicController@updateAll']);
     Route::post('topics/update/{id}', ['as' => 'topics/update', 'uses' => 'admin\TopicController@update']);
-    Route::post('topics/bulk_update', ['as' => 'topics/bulk_update', 'uses' => 'admin\TopicController@bulk_update']);
+    Route::post('topics/bulk_update', ['as' => 'topics/bulk_update', 'uses' => 'admin\TopicController@bulkUpdate']);
 
     //posts
     Route::resource('posts', 'admin\PostController')->except(['create', 'store', 'edit', 'update']);

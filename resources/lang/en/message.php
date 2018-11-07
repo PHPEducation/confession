@@ -76,7 +76,7 @@ return [
     'set_time' => 'Set a delete Schedule',
     'topic_id' => 'ID',
     'topic_user' => 'User At',
-    'topic_image' => 'Image',
+    'topic_images' => 'Image',
     'show_topic_title' => 'Detail Topic',
     'select_a_file' => 'Select a file or drag here',
     'please_image' => 'Please select an image',
@@ -118,4 +118,8 @@ return [
     'logout' => 'Log Out',
     'search' => 'Search',
     'danger' => 'login failed, account does not exist..!',
+    'not_enought_params' => 'Not enought params',
+    'done' => 'Done',
+    'error' => 'Error. Empty or Wrong data provided.',
+    'server_error' => 'Server error. Check entered data.',
 ];

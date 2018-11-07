@@ -190,7 +190,7 @@
 <script src="{{ asset('bower_components/demo-bower/confession/admin/assets/layouts/global/scripts/quick-nav.min.js') }}"
         type="text/javascript"></script>
 <!-- END THEME LAYOUT SCRIPTS -->
-{{--<script src="{{ asset('js/admin.js') }}" type="text/javascript"></script>--}}
+<script src="{{ asset('js/admin.js') }}" type="text/javascript"></script>
 {{--<script src="{{ asset('js/app.js') }}"></script>--}}
 @yield('script')
 <script>
