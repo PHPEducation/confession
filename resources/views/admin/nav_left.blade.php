@@ -101,6 +101,30 @@
                 </li>
             </ul>
         </li>
+
+        <li class="heading">
+            <h3 class="uppercase">{{ trans('message.permission_rule') }}</h3>
+        </li>
+        {{--permission--}}
+        <li class="nav-item  ">
+            <a href="javascript:" class="nav-link nav-toggle">
+                <i class="icon-diamond"></i>
+                <span class="title">{{ trans('message.permission') }}</span>
+                <span class="arrow"></span>
+            </a>
+            <ul class="sub-menu">
+                <li class="nav-item  ">
+                    <a href="{{ route('permissions.index') }}" class="nav-link ">
+                        <span class="title">{{ trans('message.list_permissions') }}</span>
+                    </a>
+                </li>
+                <li class="nav-item  ">
+                    <a href="{{ route('permissions.create') }}" class="nav-link ">
+                        <span class="title">{{ trans('message.create_permission') }}</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
     </ul>
     <!-- END SIDEBAR MENU -->
 </div>

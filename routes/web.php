@@ -53,6 +53,12 @@ Route::group(['prefix' => 'admin', 'middleware' => ['adminLogin', 'locale']], fu
     Route::get('posts', ['as' => 'postAdmin', 'uses' => 'admin\PostController@index']);
     Route::get('posts/{id?}', ['as' => 'postShowAdmin', 'uses' => 'admin\PostController@show']);
     Route::delete('posts/{id?}/delete', ['as' => 'postDelAdmin', 'uses' => 'admin\PostController@destroy']);
+
+    //permissions
+    Route::resource('permissions', 'admin\PermissionController');
+    Route::put('permissions/{id?}/edit', ['as' => 'permissions/updateAll', 'uses' => 'admin\PermissionController@updateAll']);
+    Route::post('permissions/update/{id}', ['as' => 'permissions/update', 'uses' => 'admin\PermissionController@update']);
+    Route::post('permissions/bulk_update', ['as' => 'permissions/bulk_update', 'uses' => 'admin\PermissionController@bulkUpdate']);
 });
 
 Route::group(['prefix' => 'cfs'], function () {

@@ -124,4 +124,12 @@ return [
     'server_error' => 'Server error. Check entered data.',
     'anonymous' => 'Anonymous',
     'report_user' => 'User Report',
+    'permission_rule' => 'Permissions - Rules',
+    'permission' => 'Permissions',
+    'list_permissions' => 'List Permissions',
+    'create_permission' => 'Create Permission',
+    'edit_permission' => 'Edit Permission',
+    'permission_name' => 'Name',
+    'permission_display_name' => 'Display Name',
+    'permission_desc' => 'Description',
 ];

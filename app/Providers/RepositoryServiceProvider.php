@@ -27,6 +27,11 @@ class RepositoryServiceProvider extends ServiceProvider
 //            'App\Repositories\Contracts\ReportRepository',
 //            'App\Repositories\Eloquents\ReportEloquentRepository',
 //        ],
+        [
+//          Repo of Permission
+            'App\Repositories\Contracts\PermissionRepository',
+            'App\Repositories\Eloquents\PermissionEloquentRepository',
+        ],
     ];
 
     /**

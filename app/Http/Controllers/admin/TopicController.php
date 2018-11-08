@@ -100,14 +100,14 @@ class TopicController extends Controller
      */
     public function edit($id)
     {
-        $topic = $this->topic->findOrFail($id);
+        $topic = $this->topic->find($id);
 
         return view('admin.topic.edit', compact('topic'));
     }
 
     public function updateAll(TopicFormRequest $request, $id)
     {
-        $topic = $this->topic->findOrFail($id);
+        $topic = $this->topic->find($id);
         $image = $request->file('image_topic');
         $img = $this->saveImage($image);
         $request->merge(['images' => $img]);
