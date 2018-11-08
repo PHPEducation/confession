@@ -70,22 +70,6 @@
             </ul>
         </li>
 
-        {{--confession--}}
-        <li class="nav-item  ">
-            <a href="javascript:" class="nav-link nav-toggle">
-                <i class="icon-diamond"></i>
-                <span class="title">{{ trans('message.title_confession') }}</span>
-                <span class="arrow"></span>
-            </a>
-            <ul class="sub-menu">
-                <li class="nav-item  ">
-                    <a href="{{ route('confessions.index') }}" class="nav-link ">
-                        <span class="title">{{ trans('message.title_list_confession') }}</span>
-                    </a>
-                </li>
-            </ul>
-        </li>
-
         {{--post--}}
         <li class="nav-item  ">
             <a href="javascript:" class="nav-link nav-toggle">
@@ -105,6 +89,7 @@
         <li class="heading">
             <h3 class="uppercase">{{ trans('message.permission_rule') }}</h3>
         </li>
+
         {{--permission--}}
         <li class="nav-item  ">
             <a href="javascript:" class="nav-link nav-toggle">
@@ -121,6 +106,27 @@
                 <li class="nav-item  ">
                     <a href="{{ route('permissions.create') }}" class="nav-link ">
                         <span class="title">{{ trans('message.create_permission') }}</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        {{--role--}}
+        <li class="nav-item  ">
+            <a href="javascript:" class="nav-link nav-toggle">
+                <i class="icon-diamond"></i>
+                <span class="title">{{ trans('message.role') }}</span>
+                <span class="arrow"></span>
+            </a>
+            <ul class="sub-menu">
+                <li class="nav-item  ">
+                    <a href="{{ route('roles.index') }}" class="nav-link ">
+                        <span class="title">{{ trans('message.list_roles') }}</span>
+                    </a>
+                </li>
+                <li class="nav-item  ">
+                    <a href="{{ route('roles.create') }}" class="nav-link ">
+                        <span class="title">{{ trans('message.create_role') }}</span>
                     </a>
                 </li>
             </ul>

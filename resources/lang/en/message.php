@@ -132,4 +132,12 @@ return [
     'permission_name' => 'Name',
     'permission_display_name' => 'Display Name',
     'permission_desc' => 'Description',
+    'role' => 'Roles',
+    'list_roles' => 'List Roles',
+    'create_role' => 'Create Role',
+    'edit_role' => 'Edit Role',
+    'role_name' => 'Name',
+    'role_display_name' => 'Display Name',
+    'role_desc' => 'Description',
+    'role_permission' => 'Permission',
 ];

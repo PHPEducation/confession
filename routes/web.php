@@ -59,6 +59,12 @@ Route::group(['prefix' => 'admin', 'middleware' => ['adminLogin', 'locale']], fu
     Route::put('permissions/{id?}/edit', ['as' => 'permissions/updateAll', 'uses' => 'admin\PermissionController@updateAll']);
     Route::post('permissions/update/{id}', ['as' => 'permissions/update', 'uses' => 'admin\PermissionController@update']);
     Route::post('permissions/bulk_update', ['as' => 'permissions/bulk_update', 'uses' => 'admin\PermissionController@bulkUpdate']);
+
+    //roles
+    Route::resource('roles', 'admin\RoleController');
+    Route::put('roles/{id?}/edit', ['as' => 'roles/updateAll', 'uses' => 'admin\RoleController@updateAll']);
+    Route::post('roles/update/{id}', ['as' => 'roles/update', 'uses' => 'admin\RoleController@update']);
+    Route::post('roles/bulk_update', ['as' => 'roles/bulk_update', 'uses' => 'admin\RoleController@bulkUpdate']);
 });
 
 Route::group(['prefix' => 'cfs'], function () {
