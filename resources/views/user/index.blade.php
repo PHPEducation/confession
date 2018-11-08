@@ -66,7 +66,7 @@
                             <div class="row">
                                 @foreach ($topics as $key => $topic)
                                     <div class="box8">
-                                        {{ Html::image(asset(config('common.topic') . $topic->images), '') }}
+                                        {{ Html::image(asset(config('common.topics') . $topic->images), '') }}
                                         <h3 class="title">{{ $topic->name }}</h3>
                                         <div class="box-content">
                                             <ul class="icon">
@@ -165,7 +165,7 @@
                                                 </div>
                                             @else
                                                 <div class="media-img">
-                                                    {{ Html::image(asset(config('common.post') . $post->users->images), $post->users->name) }}
+                                                    {{ Html::image(asset(config('common.image_paths.user') . $post->users->images), $post->users->name) }}
                                                 </div>
                                                 <div class="info">
                                                     <span class="title">{{ $post->users->name }}</span>
@@ -182,18 +182,35 @@
                             <div class="p-15">
                                 <a href=""><p class="m-b-5">{{ $post->title }}</p></a>
                                 <p class="m-b-15">{{ $post->body }}</p>
-                                {{ Html::image(asset(config('common.images') . 'avatar-5.png'), '', ['class' => 'img-fluid w-100']) }}
+                                <div class="row">
+                                @foreach ($post->images as $image)
+                                        <div class="col-md-4">
+                                            {{ Html::image(asset(config('common.image_paths.post') . $image->filename), '', ['width' => '100%']) }}
+                                        </div>
+                                @endforeach
+                                </div>
                                 <ul class="list-inline m-t-20 p-v-15">
-                                    <li class="m-r-25">
-                                        <a id="like" class="text-gray font-size-16" title="" onclick="like()">
-                                            <i class="fa fa-thumbs-o-up text-info p-r-5"></i>
-                                            <span>168</span>
-                                        </a>
-                                        <a id="unlike" class="text-gray font-size-16" title="" onclick="unLike()">
-                                            <i class="fa fa-thumbs-up text-info p-r-5"></i>
-                                            <span>168</span>
-                                        </a>
-                                    </li>
+                                    @if (Auth::check())
+                                        {!! Form::hidden('post_id', $post->id, ['id' => "post_id_$post->id"]) !!}
+                                        {!! Form::hidden('user_id', Auth::user()->id, ['id' => "user_id_$post->id"]) !!}
+                                        <li class="m-r-25">
+                                        @foreach ($post->likes as $like)
+                                            @if ($like->type == 0)
+                                                <i id="like_{{ $post->id }}" class="text-gray font-size-16 like"
+                                                   title="" data-typeid="{{ $like->type }}" data-postid="{{ $post->id }}" data-userid="{{ Auth::user()->id }}" data-likeid="{{ $like->id }}">
+                                                    <i class="fa fa-thumbs-o-up text-info p-r-5"></i>
+                                                    <span>168</span>
+                                                </i>
+                                            @else
+                                                <i id="unlike_{{ $post->id }}" class="text-gray font-size-16 dislike"
+                                                   title="" data-postid="{{ $post->id }}" data-typeid="{{ $like->type }}" data-userid="{{ Auth::user()->id }}" data-likeid="{{ $like->id }}">
+                                                    <i class="fa fa-thumbs-up text-info p-r-5"></i>
+                                                    <span>168</span>
+                                                </i>
+                                            @endif
+                                        @endforeach
+                                        </li>
+                                    @endif
                                     <li class="m-r-20">
                                         <a class="text-gray font-size-16" title="Comment">
                                             <i class="ti-comments text-success p-r-5"></i>
@@ -201,14 +218,22 @@
                                         </a>
                                     </li>
                                     <li class="m-r-20">
-                                        <a id="report" class="text-gray font-size-16" title="" onclick="report()">
-                                            <i class="fa fa-flag-o text-primary p-r-5"></i>
-                                            <span>5</span>
-                                        </a>
-                                        <a id="reported" class="text-gray font-size-16" title="" onclick="reported()">
-                                            <i class="fa fa-flag text-primary p-r-5"></i>
-                                            <span>5</span>
-                                        </a>
+                                        @foreach ($post->reports as $report)
+                                            @if ($report->type == 0)
+                                                <i id="report_{{ $post->id }}" class="text-gray font-size-16 report"
+                                                   title="" data-typeid="{{ $report->type }}" data-postid="{{ $report->id }}" data-userid="{{ Auth::user()->id }}" data-reportid="{{ $report->id }}">
+                                                    <i class="fa fa-flag-o text-primary p-r-5"></i>
+                                                    <span>5</span>
+                                                </i>
+                                            @else
+                                                <i id="reported_{{ $post->id }}"
+                                                   class="text-gray font-size-16 reported" title=""
+                                                   data-typeid="{{ $report->type }}" data-postid="{{ $report->id }}" data-userid="{{ Auth::user()->id }}" data-reportid="{{ $report->id }}">
+                                                    <i class="fa fa-flag text-primary p-r-5"></i>
+                                                    <span>5</span>
+                                                </i>
+                                            @endif
+                                        @endforeach
                                     </li>
                                     <li class="m-r-20">
                                         <a href="" class="text-gray font-size-16" title="Delete">
@@ -218,33 +243,50 @@
                                 </ul>
                             </div>
                             <div class="social-footer">
-                                <div class="social-comment" id="comment">
-                                    <a href="" class="pull-left">
-                                        {{ Html::image(asset(config('common.images') . 'avatar-5.png'), '', ['class' => 'img-fluid w-100']) }}
-                                    </a>
-                                    <div class="media-body">
-                                        <a href="">name</a> -
-                                        <small class="text-muted">created_at</small>
-                                        - <a data-id="id" class="text-danger btnDelete" title="Delete"
-                                             onclick="deleteComment()"><i class="fa fa-trash"></i></a>
-                                        <br>
-                                        content
-                                        <br>
+                                @foreach ($post->comments as $comment)
+                                    <div class="social-comment" id="comment{{ $comment->id }}">
+                                        <a href="#" class="pull-left">
+
+                                            @if ($comment->users->images == null)
+                                                {{ Html::image(asset(config('common.img') . 'avatar-5.png')) }}
+                                            @else
+                                                {{ Html::image(asset(config('common.img') . 'avatar-5.png')) }}
+                                            @endif
+                                        </a>
+                                        <div class="media-body">
+                                            <a href="#">
+                                                {{ Auth::user()->name }}
+                                            </a> -
+                                            <small class="text-muted">{{ $comment->created_at }}</small>
+                                            -
+                                            @if (Auth::check())
+                                                <a data-id="{{ $comment->id }}" class="text-danger btnDelete"
+                                                   title="Delete" onclick="deleteComment({{ $comment->id }})"><i
+                                                            class="fa fa-trash"></i></a>
+                                            @endif
+                                            <br>
+                                            {{ $comment->body }}
+                                            <br>
+                                        </div>
                                     </div>
-                                </div>
-                                <div id="load_comment"></div>
+                                @endforeach
+                                <div id="load_comment_{{ $post->id }}"></div>
                                 @if (Auth::check())
                                     {{ Form::open(['method' => 'POST', 'id' => 'comment_form_'. $post->id]) }}
                                     {!! Form::hidden('post_id', $post->id, ['id' => 'post_id']) !!}
                                     {!! Form::hidden('user_id', Auth::user()->id, ['id' => 'user_id']) !!}
                                     <div class="social-comment">
                                         <a href="#" class="pull-left">
-                                            {{ Html::image(asset(config('common.images') . 'avatar-5.png'), '', ['class' => 'img-fluid w-100']) }}
+                                            @if (Auth::user()->images == null)
+                                                {{ Html::image(asset(config('common.img') . 'avatar-5.png')) }}
+                                            @else
+                                                {{ Html::image(asset(config('common.image_paths.user') . Auth::user()->images)) }}
+                                            @endif
                                         </a>
                                         <div class="media-body">
-                                            {{ Form::textarea('body', null, ['id' => 'body', 'class' => 'form-control content', 'placeholder' => __('message.write_comment'), 'rows' => '2']) }}
+                                            {{ Form::textarea('body', null, ['id' => 'body', 'class' => 'form-control body', 'placeholder' => __('message.write_comment'), 'rows' => '2']) }}
                                             <br>
-                                            {!! Form::button('Comment', ['name' => 'comment', 'class' => 'btn btn-success btnComment', 'id' => 'comment', 'onclick' => 'postComment(' . $post->id .')']) !!}
+                                            {!! Form::button('Comment', ['name' => 'comment', 'class' => 'btn btn-success btnComment', 'id' => 'comment', 'onclick' => 'postComment(' . $post->id . ')']) !!}
                                         </div>
                                     </div>
                                     {{ Form::close() }}
@@ -261,7 +303,7 @@
                                 <li class="list-item">
                                     <div class="p-b-15">
                                         <div class="media-img">
-                                            {{ Html::image(asset(config('common.images') . 'avatar-5.png'), '') }}
+                                            {{ Html::image(asset(config('common.img') . 'avatar-5.png')) }}
                                         </div>
                                         <div class="info">
                                             <a href=""><span class="title">name</span></a>
@@ -282,14 +324,19 @@
             </div>
         </div>
     </div>
+    {{ Form::hidden('message_delete_comment', __('message.delete_comment'), ['id' => 'message_delete_comment']) }}
+    {{ Form::hidden('message_yes', __('message.yes'), ['id' => 'message_yes']) }}
+    {{ Form::hidden('message_no', __('message.no'), ['id' => 'message_no']) }}
+    {{ Form::hidden('config', asset(config('common.img') . 'avatar-5.png'), ['id' => 'config']) }}
     <!-- Content Wrapper END -->
 @endsection
 
 @section ('script')
-
     <script src="{{ asset('bower_components/demo-bower/confession/user/js/jasny-bootstrap.min.js') }}"></script>
     <script src="{{ asset('bower_components/demo-bower/confession/user/js/selectize.min.js') }}"></script>
     <script src="{{ asset('bower_components/demo-bower/confession/user/js/sweet-alert.min.js') }}"></script>
     <script src="{{ asset('bower_components/demo-bower/confession/user/js/toastr.min.js') }}"></script>
+
+    @routes
     <script src="{{ asset('js/user.js') }}" type="text/javascript"></script>
 @endsection

@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Models\Like;
+use App\Models\Post;
+use App\Models\Report;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\PostRequest;
 use App\Models\Image;
@@ -56,6 +59,15 @@ class PostController extends Controller
                 'topic_id' => $request->get('topic'),
                 'type' => $request->get('type'),
             ]);
+            $post = Post::orderBy('id', 'desc')->first();
+            Like::create([
+                'post_id' => $post->id,
+                'type' => 0,
+            ]);
+            Report::create([
+                'post_id' => $post->id,
+                'type' => 0,
+            ]);
             if ($request->hasFile('filename')) {
                 $images = $request->file('filename');
                 foreach ($images as $image) {
@@ -86,6 +98,15 @@ class PostController extends Controller
                 'body' => $request->get('body'),
                 'user_id' => null,
                 'topic_id' => null,
+                'type' => 0,
+            ]);
+            $post = Post::orderBy('id', 'desc')->first();
+            Like::create([
+                'post_id' => $post->id,
+                'type' => 0,
+            ]);
+            Report::create([
+                'post_id' => $post->id,
                 'type' => 0,
             ]);
             if ($request->hasFile('filename')) {

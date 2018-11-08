@@ -50,6 +50,15 @@ class Post extends Model
      * Get reports: One to many
      * @return [type] [description]
      */
+    public function likes()
+    {
+        return $this->hasMany('App\Models\Like', 'post_id');
+    }
+
+    /**
+     * Get reports: One to many
+     * @return [type] [description]
+     */
     public function reports()
     {
         return $this->hasMany('App\Models\Report', 'post_id');
