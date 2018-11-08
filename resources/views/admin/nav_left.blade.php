@@ -95,7 +95,7 @@
             </a>
             <ul class="sub-menu">
                 <li class="nav-item  ">
-                    <a href="{{ route('posts.index') }}" class="nav-link ">
+                    <a href="{{ route('postAdmin') }}" class="nav-link ">
                         <span class="title">{{ trans('message.title_list_post') }}</span>
                     </a>
                 </li>

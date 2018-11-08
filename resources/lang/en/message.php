@@ -122,4 +122,6 @@ return [
     'done' => 'Done',
     'error' => 'Error. Empty or Wrong data provided.',
     'server_error' => 'Server error. Check entered data.',
+    'anonymous' => 'Anonymous',
+    'report_user' => 'User Report',
 ];
