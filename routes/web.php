@@ -76,4 +76,10 @@ Route::group(['prefix' => 'cfs'], function () {
 
     Route::resource('/posts', 'User\PostController');
 
+    Route::resource('/comments', 'User\CommentController');
+
+    Route::resource('/likes', 'User\LikeController');
+
+    Route::resource('/reports', 'User\ReportController');
+
 });

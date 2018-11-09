@@ -8,6 +8,7 @@ return [
     'css' => 'css/',
     'image_paths' => [
         'post' => 'storage/images/post/',
+        'user' => 'storage/images/user/',
     ],
     'topics' => 'storage/images/topics/',
 ];

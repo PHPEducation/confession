@@ -154,7 +154,7 @@
 <script src="{{ asset('bower_components/demo-bower/confession/user/js/app.min.js') }}"></script>
 
 <!-- page js -->
-@routes
+
 @yield('script')
 
 </body>
