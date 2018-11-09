@@ -47,7 +47,7 @@ class Follow extends Model
     /**
      * Get all of the owning followTable models.
      */
-    public function followTable()
+    public function follow()
     {
         return $this->morphTo();
     }

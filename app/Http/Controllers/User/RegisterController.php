@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Requests\RegisterRequest;
+use App\Models\Follow;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -45,6 +46,12 @@ class RegisterController extends Controller
             'nick_name' => $nickName,
             'email' => $email,
             'password' => Hash::make($password),
+        ]);
+        $user = User::orderBy('id', 'desc')->first();
+        Follow::create([
+            'follow_id' => $user->id,
+            'follow_type' => 'user',
+            'type' => 0,
         ]);
 
         return redirect()->route('user.login_form');

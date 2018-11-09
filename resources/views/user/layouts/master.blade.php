@@ -107,7 +107,7 @@
                                 </li>
                                 <li role="separator" class="divider"></li>
                                 <li>
-                                    <a href="">
+                                    <a href="{{ route('profiles.index') }}">
                                         <i class="ti-user p-r-10"></i>
                                         <span>{{ __('message.profile') }}</span>
                                     </a>
