@@ -70,12 +70,17 @@
                                         <h3 class="title">{{ $topic->name }}</h3>
                                         <div class="box-content">
                                             <ul class="icon">
-                                                <li>
-                                                    {{ Form::button('<i class="fa fa-plus"></i>' . __('message.follow'), ['id' => 'follow_topic', 'class' => 'btn btn-info btn-rounded btn-xs']) }}
-                                                </li>
-                                                <li>
-                                                    {{ Form::button(__('message.following'), ['id' => 'un_follow_topic', 'class' => 'btn btn-info btn-rounded btn-xs']) }}
-                                                </li>
+                                                @foreach ($topic->follows as $follow)
+                                                    @if ($follow->type == 0)
+                                                        <li>
+                                                            {{ Form::button('<i class="fa fa-plus"></i>' . __('message.follow'), ['id' => 'follow_topic', 'class' => 'btn btn-info btn-rounded btn-xs']) }}
+                                                        </li>
+                                                    @else
+                                                        <li>
+                                                            {{ Form::button(__('message.following'), ['id' => 'un_follow_topic', 'class' => 'btn btn-info btn-rounded btn-xs']) }}
+                                                        </li>
+                                                    @endif
+                                                @endforeach
                                             </ul>
                                         </div>
                                     </div>
@@ -217,29 +222,33 @@
                                             <span>18</span>
                                         </a>
                                     </li>
-                                    <li class="m-r-20">
-                                        @foreach ($post->reports as $report)
-                                            @if ($report->type == 0)
-                                                <i id="report_{{ $post->id }}" class="text-gray font-size-16 report"
-                                                   title="" data-typeid="{{ $report->type }}" data-postid="{{ $report->id }}" data-userid="{{ Auth::user()->id }}" data-reportid="{{ $report->id }}">
-                                                    <i class="fa fa-flag-o text-primary p-r-5"></i>
-                                                    <span>5</span>
-                                                </i>
-                                            @else
-                                                <i id="reported_{{ $post->id }}"
-                                                   class="text-gray font-size-16 reported" title=""
-                                                   data-typeid="{{ $report->type }}" data-postid="{{ $report->id }}" data-userid="{{ Auth::user()->id }}" data-reportid="{{ $report->id }}">
-                                                    <i class="fa fa-flag text-primary p-r-5"></i>
-                                                    <span>5</span>
-                                                </i>
-                                            @endif
-                                        @endforeach
-                                    </li>
-                                    <li class="m-r-20">
-                                        <a href="" class="text-gray font-size-16" title="Delete">
-                                            <i class="ti-trash text-danger p-r-5"></i>
-                                        </a>
-                                    </li>
+                                    @if (Auth::check())
+                                        <li class="m-r-20">
+                                            @foreach ($post->reports as $report)
+                                                @if ($report->type == 0)
+                                                    <i id="report_{{ $post->id }}" class="text-gray font-size-16 report"
+                                                       title="" data-typeid="{{ $report->type }}" data-postid="{{ $report->id }}" data-userid="{{ Auth::user()->id }}" data-reportid="{{ $report->id }}">
+                                                        <i class="fa fa-flag-o text-primary p-r-5"></i>
+                                                        <span>5</span>
+                                                    </i>
+                                                @else
+                                                    <i id="reported_{{ $post->id }}"
+                                                       class="text-gray font-size-16 reported" title=""
+                                                       data-typeid="{{ $report->type }}" data-postid="{{ $report->id }}" data-userid="{{ Auth::user()->id }}" data-reportid="{{ $report->id }}">
+                                                        <i class="fa fa-flag text-primary p-r-5"></i>
+                                                        <span>5</span>
+                                                    </i>
+                                                @endif
+                                            @endforeach
+                                        </li>
+                                    @endif
+                                    @if (Auth::check())
+                                        <li class="m-r-20">
+                                            <a href="" class="text-gray font-size-16" title="Delete">
+                                                <i class="ti-trash text-danger p-r-5"></i>
+                                            </a>
+                                        </li>
+                                    @endif
                                 </ul>
                             </div>
                             <div class="social-footer">
@@ -250,19 +259,21 @@
                                             @if ($comment->users->images == null)
                                                 {{ Html::image(asset(config('common.img') . 'avatar-5.png')) }}
                                             @else
-                                                {{ Html::image(asset(config('common.img') . 'avatar-5.png')) }}
+                                                {{ Html::image(asset(config('common.img') . $comment->users->images)) }}
                                             @endif
                                         </a>
                                         <div class="media-body">
                                             <a href="#">
-                                                {{ Auth::user()->name }}
+                                                {{ $comment->users->name }}
                                             </a> -
                                             <small class="text-muted">{{ $comment->created_at }}</small>
                                             -
                                             @if (Auth::check())
-                                                <a data-id="{{ $comment->id }}" class="text-danger btnDelete"
-                                                   title="Delete" onclick="deleteComment({{ $comment->id }})"><i
-                                                            class="fa fa-trash"></i></a>
+                                                @if (Auth::user()->id == $comment->users->id)
+                                                    <a data-id="{{ $comment->id }}" class="text-danger btnDelete"
+                                                       title="Delete" onclick="deleteComment({{ $comment->id }})"><i
+                                                                class="fa fa-trash"></i></a>
+                                                @endif
                                             @endif
                                             <br>
                                             {{ $comment->body }}
