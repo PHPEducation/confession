@@ -81,6 +81,7 @@ Route::group(['prefix' => 'cfs'], function () {
     Route::post('/register', 'User\RegisterController@register')->name('user.register');
 
     Route::resource('/profiles', 'User\ProfileController');
+    Route::post('/profiles/{id}', 'User\ProfileController@uploadImage')->name('user.upload_images');
 
     Route::resource('/posts', 'User\PostController');
 

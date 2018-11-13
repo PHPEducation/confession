@@ -81,11 +81,11 @@
                     <li class="user-profile dropdown dropdown-animated scale-left">
                         @if (Auth::check())
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                @if (Auth::user()->images == null)
-                                    {{ Html::image(asset(config('common.img') . 'avatar-5.png'), Auth::user()->name, ['class' => 'profile-img img-fluid']) }}
-                                @else
-                                    {{ Html::image(Auth::user()->images, Auth::user()->name, ['class' => 'profile-img img-fluid']) }}
-                                @endif
+                                    @if (Auth::user()->images == null)
+                                        {{ Html::image(asset(config('common.img') . 'thumb-3.jpg'), Auth::user()->name, ['class' => 'profile-img img-fluid']) }}
+                                    @else
+                                        {{ Html::image(asset(config('common.image_paths.user') . Auth::user()->images), Auth::user()->name, ['class' => 'profile-img img-fluid']) }}
+                                    @endif
                             </a>
                             <ul class="dropdown-menu dropdown-md p-v-0">
                                 <li>
@@ -93,9 +93,9 @@
                                         <li class="list-item p-15">
                                             <div class="media-img">
                                                 @if (Auth::user()->images == null)
-                                                    {{ Html::image(asset(config('common.img') . 'avatar-5.png'), Auth::user()->name, ['class' => 'profile-img img-fluid']) }}
+                                                    {{ Html::image(asset(config('common.img') . 'thumb-3.jpg'), '') }}
                                                 @else
-                                                    {{ Html::image(Auth::user()->images, Auth::user()->name, ['class' => 'profile-img img-fluid']) }}
+                                                    {{ Html::image(asset(config('common.image_paths.user') . Auth::user()->images), '') }}
                                                 @endif
                                             </div>
                                             <div class="info">

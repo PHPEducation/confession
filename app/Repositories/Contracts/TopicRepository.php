@@ -8,6 +8,8 @@ interface TopicRepository extends AbstractRepository
 {
     public function getAll($data = []);
 
+    public function getAllEnable($data = []);
+
     public function all($data = []);
 
     public function store($data = []);
