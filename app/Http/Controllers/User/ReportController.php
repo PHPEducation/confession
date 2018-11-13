@@ -37,7 +37,17 @@ class ReportController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $reports = Report::create([
+            'post_id' => $request->post_id,
+            'user_id' => $request->user_id,
+            'type' => 1,
+        ]);
+
+        return response()->json([
+            'error' => false,
+            'message' => __('message.like_success'),
+            'data' => $reports,
+        ]);
     }
 
     /**
@@ -71,27 +81,7 @@ class ReportController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $report = Report::where('id', $request->report_id)->first();
-
-        if ($report) {
-            if ($request->type_id == 0) {
-                $report->update([
-                    'user_id' => $request->user_id,
-                    'type' => 1,
-                ]);
-            } else {
-                $report->update([
-                    'user_id' => $request->user_id,
-                    'type' => 0,
-                ]);
-            }
-        }
-
-        return response()->json([
-            'error' => false,
-            'message' => __('message.report_success'),
-            'data' => $report,
-        ]);
+        //
     }
 
     /**
@@ -102,6 +92,13 @@ class ReportController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $report = Report::where('post_id', $id)->where('user_id', Auth::id())->first();
+        $report->delete();
+
+        return response()->json([
+            'error' => false,
+            'message' => __('message.delete_success'),
+            'data' => $report,
+        ]);
     }
 }

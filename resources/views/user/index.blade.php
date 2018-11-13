@@ -176,7 +176,12 @@
                                                     <span class="title">{{ $post->users->name }}</span>
                                                     <span class="sub-title"><span>@</span>{{ $post->users->nick_name }}</span>
                                                     <div class="float-item">
-                                                        <span>{{ $post->created_at }}</span>
+                                                        @php
+                                                            $created_at = $post->created_at;
+                                                            $created_at = \Carbon\Carbon::parse($created_at);
+                                                            $elapsed = $created_at->diffForHumans(\Carbon\Carbon::now());
+                                                        @endphp
+                                                        <span>{{ $elapsed }}</span>
                                                     </div>
                                                 </div>
                                             @endif
@@ -188,58 +193,67 @@
                                 <a href=""><p class="m-b-5">{{ $post->title }}</p></a>
                                 <p class="m-b-15">{{ $post->body }}</p>
                                 <div class="row">
-                                @foreach ($post->images as $image)
+                                    @foreach ($post->images as $image)
                                         <div class="col-md-4">
                                             {{ Html::image(asset(config('common.image_paths.post') . $image->filename), '', ['width' => '100%']) }}
                                         </div>
-                                @endforeach
+                                    @endforeach
                                 </div>
                                 <ul class="list-inline m-t-20 p-v-15">
                                     @if (Auth::check())
-                                        {!! Form::hidden('post_id', $post->id, ['id' => "post_id_$post->id"]) !!}
-                                        {!! Form::hidden('user_id', Auth::user()->id, ['id' => "user_id_$post->id"]) !!}
                                         <li class="m-r-25">
-                                        @foreach ($post->likes as $like)
-                                            @if ($like->type == 0)
-                                                <i id="like_{{ $post->id }}" class="text-gray font-size-16 like"
-                                                   title="" data-typeid="{{ $like->type }}" data-postid="{{ $post->id }}" data-userid="{{ Auth::user()->id }}" data-likeid="{{ $like->id }}">
-                                                    <i class="fa fa-thumbs-o-up text-info p-r-5"></i>
-                                                    <span>168</span>
+                                            @if($post->liked($post->id))
+                                                <i id="unlike_{{ $post->id }}"
+                                                   class="text-gray font-size-16 dislike"
+                                                   title="" data-typeid=""
+                                                   data-postid="{{ $post->id }}"
+                                                   data-userid="{{ Auth::user()->id }}"
+                                                   data-likeid="">
+                                                    <i class="fa fa-thumbs-up text-info p-r-5"></i>
+                                                    <span id="countLike">{{ DB::table('likes')->where([['post_id', $post->id], ['type', 1]])->count() }}</span>
                                                 </i>
                                             @else
-                                                <i id="unlike_{{ $post->id }}" class="text-gray font-size-16 dislike"
-                                                   title="" data-postid="{{ $post->id }}" data-typeid="{{ $like->type }}" data-userid="{{ Auth::user()->id }}" data-likeid="{{ $like->id }}">
-                                                    <i class="fa fa-thumbs-up text-info p-r-5"></i>
-                                                    <span>168</span>
+                                                <i id="like_{{ $post->id }}"
+                                                   class="text-gray font-size-16 like"
+                                                   title="" data-typeid=""
+                                                   data-postid="{{ $post->id }}"
+                                                   data-userid="{{ Auth::user()->id }}"
+                                                   data-likeid="">
+                                                    <i class="fa fa-thumbs-o-up text-info p-r-5"></i>
+                                                    <span id="countLike">{{ DB::table('likes')->where([['post_id', $post->id], ['type', 1]])->count() }}</span>
                                                 </i>
                                             @endif
-                                        @endforeach
                                         </li>
                                     @endif
                                     <li class="m-r-20">
                                         <a class="text-gray font-size-16" title="Comment">
                                             <i class="ti-comments text-success p-r-5"></i>
-                                            <span>18</span>
+                                            <span id="countComment">{{ DB::table('comments')->where('post_id', $post->id)->count() }}</span>
                                         </a>
                                     </li>
                                     @if (Auth::check())
                                         <li class="m-r-20">
-                                            @foreach ($post->reports as $report)
-                                                @if ($report->type == 0)
-                                                    <i id="report_{{ $post->id }}" class="text-gray font-size-16 report"
-                                                       title="" data-typeid="{{ $report->type }}" data-postid="{{ $report->id }}" data-userid="{{ Auth::user()->id }}" data-reportid="{{ $report->id }}">
-                                                        <i class="fa fa-flag-o text-primary p-r-5"></i>
-                                                        <span>5</span>
-                                                    </i>
-                                                @else
-                                                    <i id="reported_{{ $post->id }}"
-                                                       class="text-gray font-size-16 reported" title=""
-                                                       data-typeid="{{ $report->type }}" data-postid="{{ $report->id }}" data-userid="{{ Auth::user()->id }}" data-reportid="{{ $report->id }}">
-                                                        <i class="fa fa-flag text-primary p-r-5"></i>
-                                                        <span>5</span>
-                                                    </i>
-                                                @endif
-                                            @endforeach
+                                            @if($post->reported($post->id))
+                                                <i id="reported_{{ $post->id }}"
+                                                   class="text-gray font-size-16 reported" title=""
+                                                   data-typeid=""
+                                                   data-postid="{{ $post->id }}"
+                                                   data-userid="{{ Auth::user()->id }}"
+                                                   data-reportid="">
+                                                    <i class="fa fa-flag text-primary p-r-5"></i>
+                                                    <span id="countReport">{{ DB::table('reports')->where([['post_id', $post->id], ['type', 1]])->count() }}</span>
+                                                </i>
+                                            @else
+                                                <i id="report_{{ $post->id }}"
+                                                   class="text-gray font-size-16 report"
+                                                   title="" data-typeid=""
+                                                   data-postid="{{ $post->id }}"
+                                                   data-userid="{{ Auth::user()->id }}"
+                                                   data-reportid="">
+                                                    <i class="fa fa-flag-o text-primary p-r-5"></i>
+                                                    <span id="countReport">{{ DB::table('reports')->where([['post_id', $post->id], ['type', 1]])->count() }}</span>
+                                                </i>
+                                            @endif
                                         </li>
                                     @endif
                                     @if (Auth::check())
