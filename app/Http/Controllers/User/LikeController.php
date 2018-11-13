@@ -37,7 +37,17 @@ class LikeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $likes = Like::create([
+            'post_id' => $request->post_id,
+            'user_id' => $request->user_id,
+            'type' => 1,
+        ]);
+
+        return response()->json([
+            'error' => false,
+            'message' => __('message.like_success'),
+            'data' => $likes,
+        ]);
     }
 
     /**
@@ -71,26 +81,7 @@ class LikeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $like = Like::where('id', $request->like_id)->first();
-        if ($like) {
-            if ($request->type_id == 0) {
-                $like->update([
-                    'user_id' => $request->user_id,
-                    'type' => 1,
-                ]);
-            } else {
-                $like->update([
-                    'user_id' => $request->user_id,
-                    'type' => 0,
-                ]);
-            }
-        }
-
-        return response()->json([
-            'error' => false,
-            'message' => __('message.like_success'),
-            'data' => $like,
-        ]);
+        //
     }
 
     /**
@@ -101,6 +92,13 @@ class LikeController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $like = Like::where('post_id', $id)->where('user_id', Auth::id())->first();
+        $like->delete();
+
+        return response()->json([
+            'error' => false,
+            'message' => __('message.delete_success'),
+            'data' => $like,
+        ]);
     }
 }

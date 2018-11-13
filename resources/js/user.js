@@ -75,6 +75,8 @@ function postComment(post_id) {
                                                                     <br>
                                                                     </div>
                                                                 </div>`);
+            var count = $('#countComment').html();
+            $('#countComment').html(parseFloat(count) + 1);
 
             $('.body').val('');
         }
@@ -118,8 +120,6 @@ function deleteComment(comment_id) {
 $(document).on('click', '.like', function () {
     var post_id = $(this).data('postid');
     var user_id = $(this).data('userid');
-    var like_id = $(this).data('likeid');
-    var type_id = $(this).data('typeid');
 
     $.ajaxSetup({
         headers: {
@@ -128,19 +128,19 @@ $(document).on('click', '.like', function () {
     });
 
     $.ajax({
-        type: 'PUT',
-        url: '/cfs/likes/' + post_id,
+        type: 'POST',
+        url: '/cfs/likes',
         data: {
             user_id: user_id,
-            post_id: post_id,
-            like_id: like_id
+            post_id: post_id
         },
         success: function (res) {
             if (!res.error) {
-                $('#like_' + post_id).replaceWith(`<i id="unlike_` + post_id + `" class="text-gray font-size-16 dislike" title="" data-typeid="1" data-postid="` + post_id + `" data-userid="` + user_id + `" data-likeid="` + like_id + `">
+                $('#like_' + post_id).replaceWith(`<i id="unlike_` + post_id + `" class="text-gray font-size-16 dislike" title="" data-typeid="1" data-postid="` + post_id + `" data-userid="` + user_id + `">
                                                                         <i class="fa fa-thumbs-up text-info p-r-5"></i>
-                                                                        <span>168</span>
                                                                     </i>`);
+                var count = $('#countLike').html();
+                $('#countLike').html(parseFloat(count) + 1);
             }
         },
         error: function (xhr, ajaxOptions, thrownError) {
@@ -162,7 +162,7 @@ $(document).on('click', '.dislike', function () {
     });
 
     $.ajax({
-        type: 'PUT',
+        type: 'DELETE',
         url: 'cfs/likes/' + post_id,
         data: {
             post_id: post_id,
@@ -171,11 +171,13 @@ $(document).on('click', '.dislike', function () {
             type_id: type_id
         },
         success: function (res) {
+            console.log(res);
             if (!res.error) {
                 $('#unlike_' + post_id).replaceWith(`<a id="like_` + post_id + `" class="text-gray font-size-16 like" title="" data-typeid="0" data-postid="` + post_id + `" data-userid="` + user_id + `" data-likeid="` + like_id + `">
                                                                         <i class="fa fa-thumbs-o-up text-info p-r-5"></i>
-                                                                        <span>168</span>
                                                                     </a>`);
+                var count = $('#count').html();
+                $('#count').html(parseFloat(count) - 1);
             }
         },
         error: function (xhr, ajaxOptions, thrownError) {
@@ -184,12 +186,11 @@ $(document).on('click', '.dislike', function () {
     });
 });
 
+
 /* Report */
 $(document).on('click', '.report', function () {
     var post_id = $(this).data('postid');
     var user_id = $(this).data('userid');
-    var report_id = $(this).data('reportid');
-    var type_id = $(this).data('typeid');
 
     $.ajaxSetup({
         headers: {
@@ -198,19 +199,19 @@ $(document).on('click', '.report', function () {
     });
 
     $.ajax({
-        type: 'PUT',
-        url: '/cfs/reports/' + post_id,
+        type: 'POST',
+        url: '/cfs/reports/',
         data: {
             post_id: post_id,
-            user_id: user_id,
-            report_id: report_id
+            user_id: user_id
         },
         success: function (res) {
             if (!res.error) {
-                $('#report_' + post_id).replaceWith(`<a id="reported_` + post_id + `" class="text-gray font-size-16 reported" title="" data-typeid="1" data-postid="`+ post_id +`" data-userid="`+ user_id +`" data-reportid="`+ report_id +`">
+                $('#report_' + post_id).replaceWith(`<a id="reported_` + post_id + `" class="text-gray font-size-16 reported" title="" data-typeid="1" data-postid="`+ post_id +`" data-userid="`+ user_id +`">
                                                                         <i class="fa fa-flag text-primary p-r-5"></i>
-                                                                        <span>168</span>
                                                                     </a>`);
+                var count = $('#countReport').html();
+                $('#countReport').html(parseFloat(count) + 1);
             }
         },
         error: function (xhr, ajaxOptions, thrownError) {
@@ -232,7 +233,7 @@ $(document).on('click', '.reported', function () {
     });
 
     $.ajax({
-        type: 'PUT',
+        type: 'DELETE',
         url: '/cfs/reports/' + post_id,
         data: {
             post_id: post_id,
@@ -244,8 +245,9 @@ $(document).on('click', '.reported', function () {
             if (!res.error) {
                 $('#reported_' + post_id).replaceWith(`<a id="report_` + post_id + `" class="text-gray font-size-16 report" title="" data-typeid="0" data-postid="`+ post_id +`" data-userid="`+ user_id +`" data-reportid="`+ report_id +`">
                                                                         <i class="fa fa-flag-o text-primary p-r-5"></i>
-                                                                        <span>168</span>
                                                                     </a>`);
+                var count = $('#countReport').html();
+                $('#countReport').html(parseFloat(count) + 1);
             }
         },
         error: function (xhr, ajaxOptions, thrownError) {

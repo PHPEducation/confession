@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Models\Post;
 use App\Repositories\Contracts\PostRepository;
 use App\Repositories\Contracts\TopicRepository;
 use Illuminate\Http\Request;

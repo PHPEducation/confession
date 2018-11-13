@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Auth;
 
 class Post extends Model
 {
@@ -56,12 +57,29 @@ class Post extends Model
     }
 
     /**
+     * Lay bai post duoc like thoe user
+     */
+    public function liked($postId)
+    {
+        $liked = $this->likes()->where('post_id', $postId)->where('user_id', Auth::id())->first();
+
+        return $liked != null ? true : false;
+    }
+
+    /**
      * Get reports: One to many
      * @return [type] [description]
      */
     public function reports()
     {
         return $this->hasMany('App\Models\Report', 'post_id');
+    }
+
+    public function reported($postId)
+    {
+        $liked = $this->reports()->where('post_id', $postId)->where('user_id', Auth::id())->first();
+
+        return $liked != null ? true : false;
     }
 
     /**
