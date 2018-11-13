@@ -170,4 +170,7 @@ return [
     'your_name' => 'Your Name',
     'your_mean' => 'What do you mean ...',
     'yes' => 'Yes',
+    'edit_user' => 'Edit User',
+    'subscribe' => 'Subscribe',
+
 ];

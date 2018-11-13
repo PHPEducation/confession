@@ -14,14 +14,22 @@ class TopicEloquentRepository extends AbstractEloquentRepository implements Topi
         return new Topic;
     }
 
+//    lấy tất cả topic để index trong backend
     public function getAll($data = [])
     {
         return $this->model()->all();
     }
 
+//    lấy tất cả topic có status = 1 để in ra ngoài frontend
+    public function getAllEnable($data = [])
+    {
+        return $this->model()->where('status', '=', 1)->orderBy('created_at', 'desc')->get();
+    }
+
+//    lấy tất cả topic có status = 1 để select
     public function all($data = [])
     {
-        return $this->model()->all()->pluck('name', 'id');
+        return $this->model()->where('status', '=', 1)->pluck('name', 'id');
     }
 
 

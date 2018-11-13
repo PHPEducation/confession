@@ -70,17 +70,17 @@
                                         <h3 class="title">{{ $topic->name }}</h3>
                                         <div class="box-content">
                                             <ul class="icon">
-                                                @foreach ($topic->follows as $follow)
-                                                    @if ($follow->type == 0)
+                                                {{--@foreach ($topic->follows as $follow)--}}
+                                                    {{--@if ($follow->type == 0)--}}
                                                         <li>
                                                             {{ Form::button('<i class="fa fa-plus"></i>' . __('message.follow'), ['id' => 'follow_topic', 'class' => 'btn btn-info btn-rounded btn-xs']) }}
                                                         </li>
-                                                    @else
-                                                        <li>
-                                                            {{ Form::button(__('message.following'), ['id' => 'un_follow_topic', 'class' => 'btn btn-info btn-rounded btn-xs']) }}
-                                                        </li>
-                                                    @endif
-                                                @endforeach
+                                                    {{--@else--}}
+                                                        {{--<li>--}}
+                                                            {{--{{ Form::button(__('message.following'), ['id' => 'un_follow_topic', 'class' => 'btn btn-info btn-rounded btn-xs']) }}--}}
+                                                        {{--</li>--}}
+                                                    {{--@endif--}}
+                                                {{--@endforeach--}}
                                             </ul>
                                         </div>
                                     </div>

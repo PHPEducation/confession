@@ -27,7 +27,7 @@ class HomeController extends Controller
     public function index()
     {
         $topicAll = $this->topic->all();
-        $topics = $this->topic->getAll();
+        $topics = $this->topic->getAllEnable();
         $posts = $this->post->getAll();
 
         return view('user.index', compact('topicAll', 'posts', 'topics'));
