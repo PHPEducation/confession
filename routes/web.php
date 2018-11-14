@@ -91,4 +91,5 @@ Route::group(['prefix' => 'cfs'], function () {
 
     Route::resource('/reports', 'User\ReportController');
 
+    Route::resource('/follows', 'User\FollowController');
 });
