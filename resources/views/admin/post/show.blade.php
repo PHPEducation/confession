@@ -119,15 +119,6 @@
                                                 @endif
                                             </td>
                                         </tr>
-
-                                        {{--<tr>--}}
-                                        {{--<th>{{ trans('message.report_user') }}</th>--}}
-                                        {{--<td>--}}
-                                        {{--@foreach($reports as $report)--}}
-                                        {{----}}
-                                        {{--</td>--}}
-                                        {{--</tr>--}}
-
                                         <tr>
                                             <th>{{ trans('message.created_at') }}</th>
                                             <td>{{ $post->created_at }}</td>
