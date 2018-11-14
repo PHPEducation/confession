@@ -75,12 +75,6 @@ class TopicController extends Controller
             }
             $request->merge(['select_time' => $selectTime]);
             $this->topic->store($request->all());
-            $topic = Topic::orderBy('id', 'desc')->first();
-            Follow::create([
-                'follow_id' => $topic->id,
-                'follow_type' => 'topic',
-                'type' => 0,
-            ]);
 
             return back()->with('success', trans('message.success'));
         }

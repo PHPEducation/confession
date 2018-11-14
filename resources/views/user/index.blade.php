@@ -69,18 +69,31 @@
                                         {{ Html::image(asset(config('common.topics') . $topic->images), '') }}
                                         <h3 class="title">{{ $topic->name }}</h3>
                                         <div class="box-content">
+                                            {{--follow--}}
                                             <ul class="icon">
-                                                {{--@foreach ($topic->follows as $follow)--}}
-                                                {{--@if ($follow->type == 0)--}}
-                                                <li>
-                                                    {{ Form::button('<i class="fa fa-plus"></i>' . __('message.follow'), ['id' => 'follow_topic', 'class' => 'btn btn-info btn-rounded btn-xs']) }}
-                                                </li>
-                                                {{--@else--}}
-                                                {{--<li>--}}
-                                                {{--{{ Form::button(__('message.following'), ['id' => 'un_follow_topic', 'class' => 'btn btn-info btn-rounded btn-xs']) }}--}}
-                                                {{--</li>--}}
-                                                {{--@endif--}}
-                                                {{--@endforeach--}}
+                                                @if (Auth::check())
+                                                    <li>
+                                                        {{--                                                        @dd(ic->followed($topic->id, Auth::id()))--}}
+                                                        {{--@dd($topic->id$top)--}}
+                                                        @if ($topic->followed($topic->id))
+                                                            <i id="following_{{ $topic->id }}"
+                                                               class="btn btn-info btn-rounded btn-xs following"
+                                                               data-topicid="{{ $topic->id }}"
+                                                               data-userid="{{ Auth::user()->id }}"
+                                                               data-type="App\Models\Topic">
+                                                                {{ trans('message.following') }}
+                                                            </i>
+                                                        @else
+                                                            <i id="follow_{{ $topic->id }}"
+                                                               class="btn btn-info btn-rounded btn-xs follow"
+                                                               data-topicid="{{ $topic->id }}"
+                                                               data-userid="{{ Auth::user()->id }}"
+                                                               data-type="App\Models\Topic">
+                                                                {{ trans('message.follow') }}
+                                                            </i>
+                                                        @endif
+                                                    </li>
+                                                @endif
                                             </ul>
                                         </div>
                                     </div>
@@ -353,6 +366,8 @@
     {{ Form::hidden('message_yes', __('message.yes'), ['id' => 'message_yes']) }}
     {{ Form::hidden('message_no', __('message.no'), ['id' => 'message_no']) }}
     {{ Form::hidden('config', asset(config('common.img') . 'avatar-5.png'), ['id' => 'config']) }}
+    {{--{{ Form::hidden('follow', __('message.follow'), ['id' => 'follow']) }}--}}
+    {{--{{ Form::hidden('following', __('message.following'), ['id' => 'following']) }}--}}
     <!-- Content Wrapper END -->
 @endsection
 

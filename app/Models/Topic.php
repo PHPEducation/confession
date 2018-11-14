@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Auth;
 
 class Topic extends Model
 {
@@ -62,5 +63,17 @@ class Topic extends Model
     public function follows()
     {
         return $this->morphMany('App\Models\Follow', 'follow');
+    }
+
+//    follow topic theo user
+    public function followed($topicId)
+    {
+        $topiced = $this->follows()->where([
+            'follow_id' => $topicId,
+            'user_id' => Auth::id(),
+            'follow_type' => 'App\Models\Topic',
+        ])->first();
+
+        return $topiced != null ? true : false;
     }
 }

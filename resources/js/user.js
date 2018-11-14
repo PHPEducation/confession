@@ -258,6 +258,67 @@ $(document).on('click', '.reported', function () {
     });
 });
 
+/* Following Topic */
+$(document).on('click', '.follow', function () {
+    var topic_id = $(this).data('topicid');
+    var type = $(this).data('type');
+    var user_id = $(this).data('userid');
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    $.ajax({
+        type: 'POST',
+        url: route('follows.store'),
+        data: {
+            topic_id: topic_id,
+            type: type,
+            user_id: user_id,
+        },
+        success: function (res) {
+            if (!res.error) {
+                $('#follow_' + topic_id).replaceWith(`<i id="following_` + topic_id + `" class="btn btn-info btn-rounded btn-xs following" data-topicid="` + topic_id + `" data-userid="` + user_id + `" data-type="App\Models\Topic">Following</i>`);
+            }
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            //
+        }
+    });
+});
+
+$(document).on('click', '.following', function () {
+    var topic_id = $(this).data('topicid');
+    var type = $(this).data('type');
+    var user_id = $(this).data('userid');
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    $.ajax({
+        type: 'DELETE',
+        url: route('follows.destroy', topic_id),
+        data: {
+            topic_id: topic_id,
+            type: type,
+            user_id: user_id,
+        },
+        success: function (res) {
+            if (!res.error) {
+                $('#following_' + topic_id).replaceWith(`<i id="follow_` + topic_id + `" class="btn btn-info btn-rounded btn-xs follow" data-topicid="` + topic_id + `" data-userid="` + user_id + `" data-type="App\Models\Topic">Follow</i>`);
+            }
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            //
+        }
+    });
+});
+
 function readURL(input) {
     if (input.files && input.files[0]) {
         var reader = new FileReader();

@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Follow extends Model
 {
-    use SoftDeletes;
 
     /**
      * [$table description]
@@ -32,7 +31,6 @@ class Follow extends Model
         'type',
         'created_at',
         'updated_at',
-        'deleted_at',
     ];
 
     /**
