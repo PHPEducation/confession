@@ -66,6 +66,14 @@ class Post extends Model
         return $liked != null ? true : false;
     }
 
+//    dem count cua tung bai viet
+    public function count($postId)
+    {
+        $count = $this->reports()->where([['post_id', $postId], ['type', 1]])->count();
+
+        return $count;
+    }
+
     /**
      * Get reports: One to many
      * @return [type] [description]

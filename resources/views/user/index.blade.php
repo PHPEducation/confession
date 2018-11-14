@@ -71,15 +71,15 @@
                                         <div class="box-content">
                                             <ul class="icon">
                                                 {{--@foreach ($topic->follows as $follow)--}}
-                                                    {{--@if ($follow->type == 0)--}}
-                                                        <li>
-                                                            {{ Form::button('<i class="fa fa-plus"></i>' . __('message.follow'), ['id' => 'follow_topic', 'class' => 'btn btn-info btn-rounded btn-xs']) }}
-                                                        </li>
-                                                    {{--@else--}}
-                                                        {{--<li>--}}
-                                                            {{--{{ Form::button(__('message.following'), ['id' => 'un_follow_topic', 'class' => 'btn btn-info btn-rounded btn-xs']) }}--}}
-                                                        {{--</li>--}}
-                                                    {{--@endif--}}
+                                                {{--@if ($follow->type == 0)--}}
+                                                <li>
+                                                    {{ Form::button('<i class="fa fa-plus"></i>' . __('message.follow'), ['id' => 'follow_topic', 'class' => 'btn btn-info btn-rounded btn-xs']) }}
+                                                </li>
+                                                {{--@else--}}
+                                                {{--<li>--}}
+                                                {{--{{ Form::button(__('message.following'), ['id' => 'un_follow_topic', 'class' => 'btn btn-info btn-rounded btn-xs']) }}--}}
+                                                {{--</li>--}}
+                                                {{--@endif--}}
                                                 {{--@endforeach--}}
                                             </ul>
                                         </div>
@@ -210,8 +210,8 @@
                                                    data-userid="{{ Auth::user()->id }}"
                                                    data-likeid="">
                                                     <i class="fa fa-thumbs-up text-info p-r-5"></i>
-                                                    <span id="countLike">{{ DB::table('likes')->where([['post_id', $post->id], ['type', 1]])->count() }}</span>
                                                 </i>
+                                                <span id="countLike_{{ $post->id }}">{{ DB::table('likes')->where([['post_id', $post->id], ['type', 1]])->count() }}</span>
                                             @else
                                                 <i id="like_{{ $post->id }}"
                                                    class="text-gray font-size-16 like"
@@ -220,16 +220,16 @@
                                                    data-userid="{{ Auth::user()->id }}"
                                                    data-likeid="">
                                                     <i class="fa fa-thumbs-o-up text-info p-r-5"></i>
-                                                    <span id="countLike">{{ DB::table('likes')->where([['post_id', $post->id], ['type', 1]])->count() }}</span>
                                                 </i>
+                                                <span id="countLike_{{ $post->id }}">{{ DB::table('likes')->where([['post_id', $post->id], ['type', 1]])->count() }}</span>
                                             @endif
                                         </li>
                                     @endif
                                     <li class="m-r-20">
                                         <a class="text-gray font-size-16" title="Comment">
                                             <i class="ti-comments text-success p-r-5"></i>
-                                            <span id="countComment">{{ DB::table('comments')->where('post_id', $post->id)->count() }}</span>
                                         </a>
+                                        <span class="countComment">{{ DB::table('comments')->where([['post_id', $post->id], ['deleted_at', '=', null]])->count() }}</span>
                                     </li>
                                     @if (Auth::check())
                                         <li class="m-r-20">
@@ -241,8 +241,8 @@
                                                    data-userid="{{ Auth::user()->id }}"
                                                    data-reportid="">
                                                     <i class="fa fa-flag text-primary p-r-5"></i>
-                                                    <span id="countReport">{{ DB::table('reports')->where([['post_id', $post->id], ['type', 1]])->count() }}</span>
                                                 </i>
+                                                <span id="countReport_{{ $post->id }}">{{ DB::table('reports')->where([['post_id', $post->id], ['type', 1]])->count() }}</span>
                                             @else
                                                 <i id="report_{{ $post->id }}"
                                                    class="text-gray font-size-16 report"
@@ -251,8 +251,8 @@
                                                    data-userid="{{ Auth::user()->id }}"
                                                    data-reportid="">
                                                     <i class="fa fa-flag-o text-primary p-r-5"></i>
-                                                    <span id="countReport">{{ DB::table('reports')->where([['post_id', $post->id], ['type', 1]])->count() }}</span>
                                                 </i>
+                                                <span id="countReport_{{ $post->id }}">{{ DB::table('reports')->where([['post_id', $post->id], ['type', 1]])->count() }}</span>
                                             @endif
                                         </li>
                                     @endif

@@ -75,8 +75,8 @@ function postComment(post_id) {
                                                                     <br>
                                                                     </div>
                                                                 </div>`);
-            var count = $('#countComment').html();
-            $('#countComment').html(parseFloat(count) + 1);
+            var count = $('.countComment').html();
+            $('.countComment').html(parseFloat(count) + 1);
 
             $('.body').val('');
         }
@@ -105,9 +105,11 @@ function deleteComment(comment_id) {
 
             $.ajax({
                 type: 'DELETE',
-                url: 'cfs/comments/' + comment_id,
+                url: route('comments.destroy', comment_id),
                 success: function (res) {
                     $('#comment' + comment_id).remove();
+                    var count = $('.countComment').html();
+                    $('.countComment').html(parseFloat(count) - 1);
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
                     //
@@ -129,7 +131,7 @@ $(document).on('click', '.like', function () {
 
     $.ajax({
         type: 'POST',
-        url: '/cfs/likes',
+        url: route('likes.store'),
         data: {
             user_id: user_id,
             post_id: post_id
@@ -139,8 +141,8 @@ $(document).on('click', '.like', function () {
                 $('#like_' + post_id).replaceWith(`<i id="unlike_` + post_id + `" class="text-gray font-size-16 dislike" title="" data-typeid="1" data-postid="` + post_id + `" data-userid="` + user_id + `">
                                                                         <i class="fa fa-thumbs-up text-info p-r-5"></i>
                                                                     </i>`);
-                var count = $('#countLike').html();
-                $('#countLike').html(parseFloat(count) + 1);
+                var count = $('#countLike_' + post_id).html();
+                $('#countLike_' + post_id).html(parseFloat(count) + 1);
             }
         },
         error: function (xhr, ajaxOptions, thrownError) {
@@ -163,7 +165,7 @@ $(document).on('click', '.dislike', function () {
 
     $.ajax({
         type: 'DELETE',
-        url: 'cfs/likes/' + post_id,
+        url: route('likes.destroy', post_id),
         data: {
             post_id: post_id,
             user_id: user_id,
@@ -176,8 +178,8 @@ $(document).on('click', '.dislike', function () {
                 $('#unlike_' + post_id).replaceWith(`<a id="like_` + post_id + `" class="text-gray font-size-16 like" title="" data-typeid="0" data-postid="` + post_id + `" data-userid="` + user_id + `" data-likeid="` + like_id + `">
                                                                         <i class="fa fa-thumbs-o-up text-info p-r-5"></i>
                                                                     </a>`);
-                var count = $('#count').html();
-                $('#count').html(parseFloat(count) - 1);
+                var count = $('#countLike_' + post_id).html();
+                $('#countLike_' + post_id).html(parseFloat(count) - 1);
             }
         },
         error: function (xhr, ajaxOptions, thrownError) {
@@ -200,18 +202,18 @@ $(document).on('click', '.report', function () {
 
     $.ajax({
         type: 'POST',
-        url: '/cfs/reports/',
+        url: route('reports.store'),
         data: {
             post_id: post_id,
             user_id: user_id
         },
         success: function (res) {
             if (!res.error) {
-                $('#report_' + post_id).replaceWith(`<a id="reported_` + post_id + `" class="text-gray font-size-16 reported" title="" data-typeid="1" data-postid="`+ post_id +`" data-userid="`+ user_id +`">
+                $('#report_' + post_id).replaceWith(`<a id="reported_` + post_id + `" class="text-gray font-size-16 reported" title="" data-typeid="1" data-postid="` + post_id + `" data-userid="` + user_id + `">
                                                                         <i class="fa fa-flag text-primary p-r-5"></i>
                                                                     </a>`);
-                var count = $('#countReport').html();
-                $('#countReport').html(parseFloat(count) + 1);
+                var count = $('#countReport_' + post_id).html();
+                $('#countReport_' + post_id).html(parseFloat(count) + 1);
             }
         },
         error: function (xhr, ajaxOptions, thrownError) {
@@ -234,7 +236,7 @@ $(document).on('click', '.reported', function () {
 
     $.ajax({
         type: 'DELETE',
-        url: '/cfs/reports/' + post_id,
+        url: route('reports.destroy', post_id),
         data: {
             post_id: post_id,
             user_id: user_id,
@@ -243,11 +245,11 @@ $(document).on('click', '.reported', function () {
         },
         success: function (res) {
             if (!res.error) {
-                $('#reported_' + post_id).replaceWith(`<a id="report_` + post_id + `" class="text-gray font-size-16 report" title="" data-typeid="0" data-postid="`+ post_id +`" data-userid="`+ user_id +`" data-reportid="`+ report_id +`">
+                $('#reported_' + post_id).replaceWith(`<a id="report_` + post_id + `" class="text-gray font-size-16 report" title="" data-typeid="0" data-postid="` + post_id + `" data-userid="` + user_id + `" data-reportid="` + report_id + `">
                                                                         <i class="fa fa-flag-o text-primary p-r-5"></i>
                                                                     </a>`);
-                var count = $('#countReport').html();
-                $('#countReport').html(parseFloat(count) + 1);
+                var count = $('#countReport_' + post_id).html();
+                $('#countReport_' + post_id).html(parseFloat(count) - 1);
             }
         },
         error: function (xhr, ajaxOptions, thrownError) {
@@ -259,7 +261,7 @@ $(document).on('click', '.reported', function () {
 function readURL(input) {
     if (input.files && input.files[0]) {
         var reader = new FileReader();
-        reader.onload = function(e) {
+        reader.onload = function (e) {
             $('#imagePreview').css('background-image', 'url(` + e.target.result + `)');
             $('#imagePreview').hide();
             $('#imagePreview').fadeIn(650);
@@ -267,6 +269,7 @@ function readURL(input) {
         reader.readAsDataURL(input.files[0]);
     }
 }
-$('#imageUpload').change(function() {
+
+$('#imageUpload').change(function () {
     readURL(this);
 });

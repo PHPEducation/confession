@@ -58,19 +58,10 @@
                             <tbody>
 
                             @foreach($posts as $post)
-                                {{--{{ $count = 0 }}--}}
-                                {{--xu li report bi report 5 lan --}}
-                                {{--@foreach($reports as $report)--}}
-                                {{--@if ($report->post_id == $post->id)--}}
-                                {{--count++;--}}
-                                {{--@endif--}}
-                                {{--@endforeach--}}
-
-                                {{--check tất cả dữ liệu bảng report để đếm số lượng report của 1 post.--}}
-                                {{--if dưới 5 thì như bình thường, còn ngược lại > =5 thì sẽ bôi đỏ dòng đó để cho admin biết bài bị report quá--}}
-                                {{--và tiến hành xử lý: xóa hoặc vẫn để bài post đó lại--}}
-                                {{--@if ($count < 5)--}}
-                                <tr>
+                                @php
+                                    $count = $post->count($post->id);
+                                @endphp
+                                <tr class="{{ ($count < 3) ? '' : 'text-danger' }}">
                                     <td class="highlight">
                                         @if($post->id % 3 == 0)
                                             <div class="success"></div>
@@ -79,7 +70,8 @@
                                         @elseif($post->id % 3 == 2)
                                             <div class="warning"></div>
                                         @endif
-                                        <a href="javascript:;">{{ $post->title }}</a>
+                                        <a href=""
+                                           class="{{ ($count < 3) ? '' : 'text-danger' }}">{{ $post->title }}</a>
                                     </td>
                                     <td>{{ $post->topic->name }}</td>
                                     <td>
