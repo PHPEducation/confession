@@ -45,13 +45,13 @@ class FollowController extends Controller
      */
     public function store(Request $request)
     {
+//        dd($request->type);
         $follow = $this->follow->store([
-            'follow_id' => $request->topic_id,
+            'follow_id' => $request->id,
             'follow_type' => $request->type,
             'user_id' => $request->user_id,
             'type' => 1,
         ]);
-
         return response()->json([
             'error' => false,
             'message' => __('message.success'),
@@ -102,6 +102,17 @@ class FollowController extends Controller
     public function destroy($id)
     {
         $follow = $this->follow->delete($id);
+
+        return response()->json([
+            'error' => false,
+            'message' => __('message.delete_success'),
+            'data' => $follow,
+        ]);
+    }
+
+    public function destroyUser($id)
+    {
+        $follow = $this->follow->deleteUserFollow($id);
 
         return response()->json([
             'error' => false,

@@ -29,4 +29,15 @@ class FollowEloquentRepository extends AbstractEloquentRepository implements Fol
 
         return $model->delete();
     }
+
+    public function deleteUserFollow($id)
+    {
+        $model = $this->model()->where([
+            'follow_id' => $id,
+            'user_id' => Auth::id(),
+            'follow_type' => 'App\Models\User',
+        ])->first();
+
+        return $model->delete();
+    }
 }

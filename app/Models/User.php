@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Auth;
 use Zizaco\Entrust\Traits\EntrustUserTrait;
 
 class User extends Authenticatable
@@ -89,5 +90,17 @@ class User extends Authenticatable
     public function follows()
     {
         return $this->morphMany('App\Models\Follow', 'follow');
+    }
+
+    //    follow user theo user
+    public function followed($userId)
+    {
+        $usered = $this->follows()->where([
+            'follow_id' => $userId,
+            'user_id' => Auth::id(),
+            'follow_type' => 'App\Models\User',
+        ])->first();
+
+        return $usered != null ? true : false;
     }
 }

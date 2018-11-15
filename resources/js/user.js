@@ -69,24 +69,25 @@ function postComment(post_id) {
                                                                         <img alt="` + res.info.name + `" src="` + $avatar + `">
                                                                     </a>
                                                                     <div class="media-body">
-                                                                    <a href=""> ` + res.info.name + ` </a> - <small class="text-muted">` + res.created_at + `</small> - <a data-id="` + res.comment_id + `" class="btnDelete" title="Delete" onclick="deleteComment(` + res.comment_id + `)"><i class="fa fa-trash"></i></a>
+                                                                    <a href=""> ` + res.info.name + ` </a> - <small class="text-muted">` + res.created_at + `</small> - <a data-id="` + res.comment_id + `" data-postid="` + post_id + `" class="btnDelete text-danger" title="Delete" onclick="deleteComment(` + res.comment_id + ` , `+ res.post_id +`)"><i class="fa fa-trash"></i></a>
                                                                     <br>
                                                                     ` + res.data.body + `
                                                                     <br>
                                                                     </div>
                                                                 </div>`);
-            var count = $('.countComment').html();
-            $('.countComment').html(parseFloat(count) + 1);
+            var count = $('#countComment_' + res.post_id).html();
+            $('#countComment_' + res.post_id).html(parseFloat(count) + 1);
 
             $('.body').val('');
         }
     });
 }
 
-function deleteComment(comment_id) {
+function deleteComment(comment_id, post_id) {
     var delete_comment = $('#message_delete_comment').val();
     var yes = $('#message_yes').val();
     var no = $('#message_no').val();
+    // var post_id = $(this).data('postid');
 
     swal({
             title: delete_comment,
@@ -108,8 +109,8 @@ function deleteComment(comment_id) {
                 url: route('comments.destroy', comment_id),
                 success: function (res) {
                     $('#comment' + comment_id).remove();
-                    var count = $('.countComment').html();
-                    $('.countComment').html(parseFloat(count) - 1);
+                    var count = $('#countComment_' + post_id).html();
+                    $('#countComment_' + post_id).html(parseFloat(count) - 1);
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
                     //
@@ -260,7 +261,7 @@ $(document).on('click', '.reported', function () {
 
 /* Following Topic */
 $(document).on('click', '.follow', function () {
-    var topic_id = $(this).data('topicid');
+    var id = $(this).data('id');
     var type = $(this).data('type');
     var user_id = $(this).data('userid');
 
@@ -274,13 +275,13 @@ $(document).on('click', '.follow', function () {
         type: 'POST',
         url: route('follows.store'),
         data: {
-            topic_id: topic_id,
+            id: id,
             type: type,
             user_id: user_id,
         },
         success: function (res) {
             if (!res.error) {
-                $('#follow_' + topic_id).replaceWith(`<i id="following_` + topic_id + `" class="btn btn-info btn-rounded btn-xs following" data-topicid="` + topic_id + `" data-userid="` + user_id + `" data-type="App\Models\Topic">Following</i>`);
+                $('#follow_' + id).replaceWith(`<i id="following_` + id + `" class="btn btn-info btn-rounded btn-xs following" data-id="` + id + `" data-userid="` + user_id + `" data-type="App\\Models\\Topic">Following</i>`);
             }
         },
         error: function (xhr, ajaxOptions, thrownError) {
@@ -290,7 +291,7 @@ $(document).on('click', '.follow', function () {
 });
 
 $(document).on('click', '.following', function () {
-    var topic_id = $(this).data('topicid');
+    var id = $(this).data('id');
     var type = $(this).data('type');
     var user_id = $(this).data('userid');
 
@@ -302,15 +303,76 @@ $(document).on('click', '.following', function () {
 
     $.ajax({
         type: 'DELETE',
-        url: route('follows.destroy', topic_id),
+        url: route('follows.destroy', id),
         data: {
-            topic_id: topic_id,
+            id: id,
             type: type,
             user_id: user_id,
         },
         success: function (res) {
             if (!res.error) {
-                $('#following_' + topic_id).replaceWith(`<i id="follow_` + topic_id + `" class="btn btn-info btn-rounded btn-xs follow" data-topicid="` + topic_id + `" data-userid="` + user_id + `" data-type="App\Models\Topic">Follow</i>`);
+                $('#following_' + id).replaceWith(`<i id="follow_` + id + `" class="btn btn-info btn-rounded btn-xs follow" data-id="` + id + `" data-userid="` + user_id + `" data-type="App\\Models\\Topic">Follow</i>`);
+            }
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            //
+        }
+    });
+});
+
+/* Following User */
+$(document).on('click', '.followUser', function () {
+    var id = $(this).data('id');
+    var type = $(this).data('type');
+    var user_id = $(this).data('userid');
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    $.ajax({
+        type: 'POST',
+        url: route('follows.store'),
+        data: {
+            id: id,
+            type: type,
+            user_id: user_id,
+        },
+        success: function (res) {
+            if (!res.error) {
+                $('#followUser_' + id).replaceWith(`<i id="followingUser_` + id + `" class="btn btn-info btn-rounded btn-outline btn-xs followingUser" data-id="` + id + `" data-userid="` + user_id + `" data-type="App\\Models\\User">Following</i>`);
+            }
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            //
+        }
+    });
+});
+
+$(document).on('click', '.followingUser', function () {
+    var id = $(this).data('id');
+    var type = $(this).data('type');
+    var user_id = $(this).data('userid');
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    $.ajax({
+        type: 'DELETE',
+        url: route('destroyUser', id),
+        data: {
+            id: id,
+            type: type,
+            user_id: user_id,
+        },
+        success: function (res) {
+            if (!res.error) {
+                $('#followingUser_' + id).replaceWith(`<i id="followUser_` + id + `" class="btn btn-info btn-rounded btn-xs followUser" data-id="` + id + `" data-userid="` + user_id + `" data-type="App\\Models\\User">Follow</i>`);
             }
         },
         error: function (xhr, ajaxOptions, thrownError) {
