@@ -5,6 +5,8 @@ namespace App\Http\Controllers\User;
 use App\Models\Like;
 use App\Models\Post;
 use App\Models\Report;
+use App\Repositories\Contracts\TopicRepository;
+use App\Repositories\Contracts\UserRepository;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\PostRequest;
 use App\Models\Image;
@@ -16,10 +18,14 @@ use Illuminate\Support\Str;
 class PostController extends Controller
 {
     protected $post;
+    protected $topic;
+    protected $user;
 
-    public function __construct(PostRepository $post)
+    public function __construct(PostRepository $post, TopicRepository $topic, UserRepository $user)
     {
         $this->post = $post;
+        $this->topic = $topic;
+        $this->user = $user;
     }
 
     /**
@@ -137,9 +143,11 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        $posts = $this->post->show($id);
+        $post = $this->post->show($id);
+        $topics = $this->topic->getAllEnable();
+        $users = $this->user->getAllUser();
 
-        return view('user.post.detail', compact($posts));
+        return view('user.post.detail', compact('post', 'topics', 'users'));
     }
 
     /**
