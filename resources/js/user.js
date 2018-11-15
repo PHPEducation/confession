@@ -95,6 +95,7 @@ function postComment(post_id) {
     var form = $('#comment_form_' + post_id);
     var formdata = form.serialize();
     var config = $('#config').val();
+    var url = $('#url').val();
 
     $.ajaxSetup({
         headers: {'X-CSRF-Token': $('meta[name=_token]').attr('content')}
@@ -116,12 +117,12 @@ function postComment(post_id) {
                                                                 <img alt="` + res.info.name + `" src="` + $avatar + `">
                                                             </a>
                                                             <div class="media-body">
-                                                                <a href=""> ` + res.info.name + ` </a> - <small class="text-muted">` + res.created_at + `</small> - <a data-id="` + res.comment_id + `" data-postid="` + post_id + `" class="btnDelete text-danger" title="Delete" onclick="deleteComment(` + res.comment_id + ` , `+ res.post_id +`)"><i class="fa fa-trash"></i></a>
+                                                                <a href=""> ` + res.info.name + ` </a> - <small class="text-muted">` + res.created_at + `</small> - <a data-id="` + res.comment_id + `" data-postid="` + post_id + `" class="btnDelete text-danger" title="Delete" onclick="deleteComment(` + res.comment_id + ` , ` + res.post_id + `)"><i class="fa fa-trash"></i></a>
                                                                 <br>
                                                                 ` + res.data.body + `
                                                                 <br>
                                                             </div>
-                                                       </div>`);
+                                                        </div>`);
             var count = $('#countComment_' + res.post_id).html();
             $('#countComment_' + res.post_id).html(parseFloat(count) + 1);
 
@@ -134,7 +135,6 @@ function deleteComment(comment_id, post_id) {
     var delete_comment = $('#message_delete_comment').val();
     var yes = $('#message_yes').val();
     var no = $('#message_no').val();
-    // var post_id = $(this).data('postid');
 
     swal({
             title: delete_comment,

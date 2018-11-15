@@ -21,4 +21,11 @@ class UserEloquentRepository extends AbstractEloquentRepository implements UserR
             ['id', '<>', Auth::id()],
         ])->get();
     }
+
+    public function showDetail($id)
+    {
+        $model = $this->model()->findOrFail($id);
+
+        return $model;
+    }
 }

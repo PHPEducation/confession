@@ -94,4 +94,7 @@ Route::group(['prefix' => 'cfs'], function () {
     Route::resource('/follows', 'User\FollowController');
 
     Route::delete('/follows/destroyUser/{id}', ['as' => 'destroyUser', 'uses' => 'User\FollowController@destroyUser']);
+
+    //detail of 1 user
+    Route::get('users/{id?}', ['as' => 'detailUser', 'uses' => 'User\UserController@show']);
 });

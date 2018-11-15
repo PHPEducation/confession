@@ -109,7 +109,15 @@
 
                             <div class="social-comment">
                                 <a href="" class="pull-left">
-                                    {{ Html::image(asset(config('common.img') . 'avatar-5.png'), '') }}
+                                    @if (Auth::check())
+                                        @if (Auth::user()->images == null)
+                                            {{ Html::image(asset(config('common.img') . 'thumb-3.jpg'), '') }}
+                                        @else
+                                            {{ Html::image(asset(config('common.image_paths.user') . Auth::user()->images)) }}
+                                        @endif
+                                    @else
+                                        {{ Html::image(asset(config('common.img') . 'avatar-5.png'), '') }}
+                                    @endif
                                 </a>
                                 <div class="media-body">
                                     @if (Auth::check())
@@ -181,10 +189,26 @@
                                                 </div>
                                             @else
                                                 <div class="media-img">
-                                                    {{ Html::image(asset(config('common.image_paths.user') . $post->users->images), $post->users->name) }}
+                                                    @if ($post->users->images == null)
+                                                        {{ Html::image(asset(config('common.img') . 'thumb-3.jpg')) }}
+                                                    @else
+                                                        {{ Html::image(asset(config('common.image_paths.user') . $post->users->images), $post->users->name) }}
+                                                    @endif
                                                 </div>
                                                 <div class="info">
-                                                    <span class="title">{{ $post->users->name }}</span>
+                                                    @if (Auth::id() == $post->users->id)
+                                                        <span class="title">
+                                                            <a href="{{ route('profiles.index') }}">
+                                                                {{ $post->users->name }}
+                                                            </a>
+                                                        </span>
+                                                    @else
+                                                        <span class="title">
+                                                            <a href="{{ route('detailUser', $post->users->id) }}">
+                                                                {{ $post->users->name }}
+                                                            </a>
+                                                        </span>
+                                                    @endif
                                                     <span class="sub-title"><span>@</span>{{ $post->users->nick_name }}</span>
                                                     <div class="float-item">
                                                         @php
@@ -201,7 +225,13 @@
                                 </ul>
                             </div>
                             <div class="p-15">
-                                <a href=""><p class="m-b-5">{{ $post->title }}</p></a>
+                                <a class="m-b-5 font-size-15" href="{{ route('posts.show', $post->id) }}">
+                                    {{ $post->title }}
+                                </a>
+                                &nbsp <i class="fa fa-caret-right font-size-17" aria-hidden="true"></i> &nbsp;
+                                <a href="#">
+                                    {{ $post->topic->name }}
+                                </a>
                                 <p class="m-b-15">{{ $post->body }}</p>
                                 <div class="row">
                                     @foreach ($post->images as $image)
@@ -280,19 +310,27 @@
                                 @foreach ($post->comments as $comment)
                                     <div class="social-comment" id="comment{{ $comment->id }}">
                                         <a href="#" class="pull-left">
-
                                             @if ($comment->users->images == null)
                                                 {{ Html::image(asset(config('common.img') . 'avatar-5.png')) }}
                                             @else
-                                                {{ Html::image(asset(config('common.img') . $comment->users->images)) }}
+                                                {{ Html::image(asset(config('common.image_paths.user') . $comment->users->images)) }}
                                             @endif
                                         </a>
                                         <div class="media-body">
-                                            <a href="#">
-                                                {{ $comment->users->name }}
-                                            </a> -
-                                            <small class="text-muted">{{ $comment->created_at }}</small>
-                                            -
+                                            @if (Auth::id() == $post->users->id)
+                                                <span class="title">
+                                                    <a href="{{ route('profiles.index') }}">
+                                                        {{ $comment->users->name }}
+                                                    </a> -
+                                                </span>
+                                            @else
+                                                <span class="title">
+                                                    <a href="{{ route('detailUser', $post->users->id) }}">
+                                                        {{ $comment->users->name }}
+                                                    </a> -
+                                                </span>
+                                            @endif
+                                            <small class="text-muted">{{ $comment->created_at }}</small> &nbsp;
                                             @if (Auth::check())
                                                 @if (Auth::user()->id == $comment->users->id)
                                                     <a data-id="{{ $comment->id }}" class="text-danger btnDelete"
@@ -337,18 +375,34 @@
                         <div class="card-body">
                             <h4 class="card-title m-b-25">{{ __('message.friends') }}</h4>
                             <ul class="list-media">
-                                {{--@dd($users)--}}
                                 @foreach($users as $user)
                                     <li class="list-item">
                                         <div class="p-b-15">
                                             <div class="media-img">
-                                                {{ Html::image(asset(config('common.img') . 'avatar-5.png')) }}
+                                                @if ($user->images == null)
+                                                    {{ Html::image(asset(config('common.img') . 'thumb-3.jpg'), '') }}
+                                                @else
+                                                    {{ Html::image(asset(config('common.image_paths.user') . $user->images)) }}
+                                                @endif
                                             </div>
                                             <div class="info">
-                                                <a href=""><span class="title">{{ $user->name }}</span></a>
+                                                @if (Auth::id() == $user->id)
+                                                    <span class="title">
+                                                            <a href="{{ route('profiles.index') }}">
+                                                                {{ $user->name }}
+                                                            </a>
+                                                        </span>
+                                                @else
+                                                    <span class="title">
+                                                            <a href="{{ route('detailUser', $user->id) }}">
+                                                                {{ $user->name }}
+                                                            </a>
+                                                        </span>
+                                                @endif
+
                                                 <span class="sub-title"><span>@</span>{{ $user->nick_name }}</span>
                                                 <div id="follow_user">
-                                                    {{--data-user: la user duoc theo doi, data-userid: la user theo doi--}}
+                                                    {{--data-id: la id duoc theo doi, data-userid: la user theo doi--}}
                                                     @if (Auth::check())
                                                         @if ($user->followed($user->id))
                                                             <i id="followingUser_{{ $user->id }}"
@@ -387,6 +441,7 @@
     {{ Form::hidden('message_yes', __('message.yes'), ['id' => 'message_yes']) }}
     {{ Form::hidden('message_no', __('message.no'), ['id' => 'message_no']) }}
     {{ Form::hidden('config', asset(config('common.img') . 'avatar-5.png'), ['id' => 'config']) }}
+    {{ Form::hidden('url', asset(config('common.image_paths.user')), ['id' => 'url']) }}
     <!-- Content Wrapper END -->
 @endsection
 
