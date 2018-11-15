@@ -50,13 +50,13 @@ $(document).ready(function () {
     var notificationsToggle = notificationsWrapper.find('a[data-toggle]');
     var notificationsCountElem = notificationsToggle.find('i[data-count]');
     var notificationsCount = parseInt(notificationsCountElem.data('count'));
-    var notifications = notificationsWrapper.find('ul.dropdown-lg');
+    var notifications = notificationsWrapper.find('ul.notification');
     var auth = $('#auth_id').val();
 
     // Enable pusher logging - don't include this in production
     Pusher.logToConsole = true;
 
-    var pusher = new Pusher('78e50552842a83edf0c5', {
+    var pusher = new Pusher('d3d62d54e926c2d1d4af', {
         cluster: 'ap1',
         encrypted: true
     });
@@ -73,14 +73,14 @@ $(document).ready(function () {
             var existingNotifications = notifications.html();
             var avatar = Math.floor(Math.random() * (71 - 20 + 1)) + 20;
             var newNotificationHtml = `<li class="list-item border bottom">
-                                                    <a href="" class="media-hover p-15">
-                                                        <div class="info">
-                                                            <span class="title">` + data.user_id + `</span>
-                                                            commented in
-                                                            <span class="title">` + data.post_id + `</span>
-                                                        </div>
-                                                    </a>
-                                                </li>`;
+                                            <a href="" class="media-hover p-15">
+                                                <div class="info">
+                                                    <span class="title">` + data.user_id + `</span>
+                                                    commented in
+                                                    <span class="title">` + data.post_id + `</span>
+                                                </div>
+                                            </a>
+                                        </li>`;
             notifications.html(newNotificationHtml + existingNotifications);
 
             notificationsCount += 1;
@@ -112,16 +112,16 @@ function postComment(post_id) {
             }
 
             $('#load_comment_' + res.post_id).append(`<div class="social-comment" id="comment` + res.comment_id + `">
-                                                                    <a href="" class="pull-left">
-                                                                        <img alt="` + res.info.name + `" src="` + $avatar + `">
-                                                                    </a>
-                                                                    <div class="media-body">
-                                                                    <a href=""> ` + res.info.name + ` </a> - <small class="text-muted">` + res.created_at + `</small> - <a data-id="` + res.comment_id + `" data-postid="` + post_id + `" class="btnDelete text-danger" title="Delete" onclick="deleteComment(` + res.comment_id + ` , `+ res.post_id +`)"><i class="fa fa-trash"></i></a>
-                                                                    <br>
-                                                                    ` + res.data.body + `
-                                                                    <br>
-                                                                    </div>
-                                                                </div>`);
+                                                            <a href="" class="pull-left">
+                                                                <img alt="` + res.info.name + `" src="` + $avatar + `">
+                                                            </a>
+                                                            <div class="media-body">
+                                                                <a href=""> ` + res.info.name + ` </a> - <small class="text-muted">` + res.created_at + `</small> - <a data-id="` + res.comment_id + `" data-postid="` + post_id + `" class="btnDelete text-danger" title="Delete" onclick="deleteComment(` + res.comment_id + ` , `+ res.post_id +`)"><i class="fa fa-trash"></i></a>
+                                                                <br>
+                                                                ` + res.data.body + `
+                                                                <br>
+                                                            </div>
+                                                       </div>`);
             var count = $('#countComment_' + res.post_id).html();
             $('#countComment_' + res.post_id).html(parseFloat(count) + 1);
 
@@ -172,13 +172,13 @@ $(document).ready(function () {
     var notificationsToggle = notificationsWrapper.find('a[data-toggle]');
     var notificationsCountElem = notificationsToggle.find('i[data-count]');
     var notificationsCount = parseInt(notificationsCountElem.data('count'));
-    var notifications = notificationsWrapper.find('ul.dropdown-lg');
+    var notifications = notificationsWrapper.find('ul.notification');
     var auth = $('#auth_id').val();
 
     // Enable pusher logging - don't include this in production
     Pusher.logToConsole = true;
 
-    var pusher = new Pusher('78e50552842a83edf0c5', {
+    var pusher = new Pusher('d3d62d54e926c2d1d4af', {
         cluster: 'ap1',
         encrypted: true
     });
@@ -195,14 +195,14 @@ $(document).ready(function () {
             var existingNotifications = notifications.html();
             var avatar = Math.floor(Math.random() * (71 - 20 + 1)) + 20;
             var newNotificationHtml = `<li class="list-item border bottom">
-                                                    <a href="" class="media-hover p-15">
-                                                        <div class="info">
-                                                            <span class="title">` + data.user_id + `</span>
-                                                            liked in
-                                                            <span class="title">` + data.post_id + `</span>
-                                                        </div>
-                                                    </a>
-                                                </li>`;
+                                            <a href="" class="media-hover p-15">
+                                                <div class="info">
+                                                    <span class="title">` + data.user_id + `</span>
+                                                    liked in
+                                                    <span class="title">` + data.post_id + `</span>
+                                                </div>
+                                            </a>
+                                        </li>`;
             notifications.html(newNotificationHtml + existingNotifications);
 
             notificationsCount += 1;
@@ -234,8 +234,8 @@ $(document).on('click', '.like', function () {
         success: function (res) {
             if (!res.error) {
                 $('#like_' + post_id).replaceWith(`<i id="unlike_` + post_id + `" class="text-gray font-size-16 dislike" title="" data-typeid="1" data-postid="` + post_id + `" data-userid="` + user_id + `">
-                                                                        <i class="fa fa-thumbs-up text-info p-r-5"></i>
-                                                                    </i>`);
+                                                       <i class="fa fa-thumbs-up text-info p-r-5"></i>
+                                                   </i>`);
                 var count = $('#countLike_' + post_id).html();
                 $('#countLike_' + post_id).html(parseFloat(count) + 1);
             }
@@ -271,8 +271,8 @@ $(document).on('click', '.dislike', function () {
             console.log(res);
             if (!res.error) {
                 $('#unlike_' + post_id).replaceWith(`<a id="like_` + post_id + `" class="text-gray font-size-16 like" title="" data-typeid="0" data-postid="` + post_id + `" data-userid="` + user_id + `" data-likeid="` + like_id + `">
-                                                                        <i class="fa fa-thumbs-o-up text-info p-r-5"></i>
-                                                                    </a>`);
+                                                         <i class="fa fa-thumbs-o-up text-info p-r-5"></i>
+                                                     </a>`);
                 var count = $('#countLike_' + post_id).html();
                 $('#countLike_' + post_id).html(parseFloat(count) - 1);
             }
@@ -289,13 +289,13 @@ $(document).ready(function () {
     var notificationsToggle = notificationsWrapper.find('a[data-toggle]');
     var notificationsCountElem = notificationsToggle.find('i[data-count]');
     var notificationsCount = parseInt(notificationsCountElem.data('count'));
-    var notifications = notificationsWrapper.find('ul.dropdown-lg');
+    var notifications = notificationsWrapper.find('ul.notification');
     var auth = $('#auth_id').val();
 
     // Enable pusher logging - don't include this in production
     Pusher.logToConsole = true;
 
-    var pusher = new Pusher('78e50552842a83edf0c5', {
+    var pusher = new Pusher('d3d62d54e926c2d1d4af', {
         cluster: 'ap1',
         encrypted: true
     });
@@ -312,14 +312,14 @@ $(document).ready(function () {
             var existingNotifications = notifications.html();
             var avatar = Math.floor(Math.random() * (71 - 20 + 1)) + 20;
             var newNotificationHtml = `<li class="list-item border bottom">
-                                                    <a href="' + route('posts.show') + '" class="media-hover p-15">
-                                                        <div class="info">
-                                                            <span class="title">` + data.user_id + `</span>
-                                                            reported in
-                                                            <span class="title">` + data.post_id + `</span>
-                                                        </div>
-                                                    </a>
-                                                </li>`;
+                                            <a href="' + route('posts.show') + '" class="media-hover p-15">
+                                                <div class="info">
+                                                    <span class="title">` + data.user_id + `</span>
+                                                    reported in
+                                                    <span class="title">` + data.post_id + `</span>
+                                                </div>
+                                            </a>
+                                        </li>`;
             notifications.html(newNotificationHtml + existingNotifications);
 
             notificationsCount += 1;
@@ -351,8 +351,8 @@ $(document).on('click', '.report', function () {
         success: function (res) {
             if (!res.error) {
                 $('#report_' + post_id).replaceWith(`<a id="reported_` + post_id + `" class="text-gray font-size-16 reported" title="" data-typeid="1" data-postid="` + post_id + `" data-userid="` + user_id + `">
-                                                                        <i class="fa fa-flag text-primary p-r-5"></i>
-                                                                    </a>`);
+                                                         <i class="fa fa-flag text-primary p-r-5"></i>
+                                                     </a>`);
                 var count = $('#countReport_' + post_id).html();
                 $('#countReport_' + post_id).html(parseFloat(count) + 1);
             }
@@ -387,8 +387,8 @@ $(document).on('click', '.reported', function () {
         success: function (res) {
             if (!res.error) {
                 $('#reported_' + post_id).replaceWith(`<a id="report_` + post_id + `" class="text-gray font-size-16 report" title="" data-typeid="0" data-postid="` + post_id + `" data-userid="` + user_id + `" data-reportid="` + report_id + `">
-                                                                        <i class="fa fa-flag-o text-primary p-r-5"></i>
-                                                                    </a>`);
+                                                           <i class="fa fa-flag-o text-primary p-r-5"></i>
+                                                       </a>`);
                 var count = $('#countReport_' + post_id).html();
                 $('#countReport_' + post_id).html(parseFloat(count) - 1);
             }
@@ -456,6 +456,51 @@ $(document).on('click', '.following', function () {
         },
         error: function (xhr, ajaxOptions, thrownError) {
             //
+        }
+    });
+});
+
+$(document).ready(function () {
+    var notificationsWrapper = $('.dropdown-notifications');
+    var notificationsToggle = notificationsWrapper.find('a[data-toggle]');
+    var notificationsCountElem = notificationsToggle.find('i[data-count]');
+    var notificationsCount = parseInt(notificationsCountElem.data('count'));
+    var notifications = notificationsWrapper.find('ul.notification');
+    var auth = $('#auth_id').val();
+
+    // Enable pusher logging - don't include this in production
+    Pusher.logToConsole = true;
+
+    var pusher = new Pusher('d3d62d54e926c2d1d4af', {
+        cluster: 'ap1',
+        encrypted: true
+    });
+
+    // Subscribe to the channel we specified in our Laravel Event
+    var channel = pusher.subscribe('FollowEvent');
+
+    // Bind a function to a Event (the full Laravel class)
+
+    channel.bind('follow', function (data) {
+        var postUser = data.users;
+
+        if (auth == postUser) {
+            var existingNotifications = notifications.html();
+            var avatar = Math.floor(Math.random() * (71 - 20 + 1)) + 20;
+            var newNotificationHtml = `<li class="list-item border bottom">
+                                            <a href="" class="media-hover p-15">
+                                                <div class="info">
+                                                    <span class="title">` + data.user_id + `</span>
+                                                    following you
+                                                </div>
+                                            </a>
+                                        </li>`;
+            notifications.html(newNotificationHtml + existingNotifications);
+
+            notificationsCount += 1;
+            notificationsCountElem.attr('data-count', notificationsCount);
+            notificationsWrapper.find('.counter').text(notificationsCount);
+            notificationsWrapper.show();
         }
     });
 });

@@ -46,7 +46,7 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <i data-count="0" class="mdi mdi-bell-ring-outline"></i>
                         </a>
-                        <ul class="dropdown-menu dropdown-lg p-v-0">
+                        <ul class="dropdown-menu dropdown-lg p-v-0 notification">
                             @if (Auth::check())
                                 {!! Form::hidden('user_id', Auth::user()->id, ['id' => 'auth_id']) !!}
                             @endif
