@@ -137,7 +137,9 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        //
+        $posts = $this->post->show($id);
+
+        return view('user.post.detail', compact($posts));
     }
 
     /**

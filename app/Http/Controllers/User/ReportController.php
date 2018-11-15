@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Models\Post;
 use App\Models\Report;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Pusher\Pusher;
 
 class ReportController extends Controller
 {
@@ -37,6 +40,27 @@ class ReportController extends Controller
      */
     public function store(Request $request)
     {
+        $post = Post::findOrFail($request->post_id);
+        $users = User::findOrFail($request->user_id);
+
+        $data['post_id'] = $post->title;
+        $data['user_id'] = $users->name;
+        $data['users'] = $post->user_id;
+
+        $options = [
+            'cluster' => 'ap1',
+            'encrypted' => true,
+        ];
+
+        $pusher = new Pusher(
+            env('PUSHER_APP_KEY'),
+            env('PUSHER_APP_SECRET'),
+            env('PUSHER_APP_ID'),
+            $options
+        );
+
+        $pusher->trigger('ReportEvent', 'report-post', $data);
+
         $reports = Report::create([
             'post_id' => $request->post_id,
             'user_id' => $request->user_id,

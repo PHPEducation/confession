@@ -12,6 +12,7 @@
         "laravel/framework": "5.7.*",
         "laravel/tinker": "^1.0",
         "laravelcollective/html": "5.7.*",
+        "pusher/pusher-php-server": "^3.2",
         "tightenco/ziggy": "^0.6.9",
         "zizaco/entrust": "5.2.x-dev"
     },
