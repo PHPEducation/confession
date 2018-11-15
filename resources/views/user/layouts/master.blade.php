@@ -18,11 +18,12 @@
           href="{{ asset('bower_components/demo-bower/confession/user/css/perfect-scrollbar.min.css') }}"/>
 
     <!-- page css -->
-    @yield('style')
-    <!-- core css -->
+@yield('style')
+<!-- core css -->
     <link href="{{ asset('bower_components/demo-bower/confession/user/css/font-awesome.min.css') }}" rel="stylesheet">
     <link href="{{ asset('bower_components/demo-bower/confession/user/css/themify-icons.css') }}" rel="stylesheet">
-    <link href="{{ asset('bower_components/demo-bower/confession/user/css/materialdesignicons.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('bower_components/demo-bower/confession/user/css/materialdesignicons.min.css') }}"
+          rel="stylesheet">
     <link href="{{ asset('bower_components/demo-bower/confession/user/css/animate.min.css') }}" rel="stylesheet">
     <link href="{{ asset('bower_components/demo-bower/confession/user/css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -40,40 +41,19 @@
                     </a>
                 </div>
                 <ul class="nav-right">
-                    <li class="notifications dropdown dropdown-animated scale-left">
-                        <span class="counter">2</span>
+                    <li class="notifications dropdown dropdown-animated scale-left dropdown-notifications">
+                        <span class="counter">0</span>
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <i class="mdi mdi-bell-ring-outline"></i>
+                            <i data-count="0" class="mdi mdi-bell-ring-outline"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-lg p-v-0">
-                            <li class="p-v-15 p-h-20 border bottom text-dark">
-                                <h5 class="m-b-0">
-                                    <i class="mdi mdi-bell-ring-outline p-r-10"></i>
-                                    <span>{{ __('message.notifications') }}</span>
-                                </h5>
-                            </li>
-                            <li>
-                                <ul class="list-media overflow-y-auto relative scrollable">
-                                    <li class="list-item border bottom">
-                                        <a href="javascript:void(0);" class="media-hover p-15">
-                                            <div class="media-img">
-                                                <div class="icon-avatar bg-success">
-                                                    <i class="ti-user"></i>
-                                                </div>
-                                            </div>
-                                            <div class="info">
-                                                    <span class="title">
-                                                        {{ __('message.new_notifications') }}
-                                                    </span>
-                                                <span class="sub-title">12 min ago</span>
-                                            </div>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
+                            @if (Auth::check())
+                                {!! Form::hidden('user_id', Auth::user()->id, ['id' => 'auth_id']) !!}
+                            @endif
                             <li class="p-v-15 p-h-20 text-center">
                                     <span>
-                                        <a href="#" class="text-gray">{{ __('message.all') }}<i class="ei-right-chevron p-l-5 font-size-10"></i></a>
+                                        <a href="#" class="text-gray">{{ __('message.all') }}<i
+                                                    class="ei-right-chevron p-l-5 font-size-10"></i></a>
                                     </span>
                             </li>
                         </ul>
@@ -81,11 +61,11 @@
                     <li class="user-profile dropdown dropdown-animated scale-left">
                         @if (Auth::check())
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    @if (Auth::user()->images == null)
-                                        {{ Html::image(asset(config('common.img') . 'thumb-3.jpg'), Auth::user()->name, ['class' => 'profile-img img-fluid']) }}
-                                    @else
-                                        {{ Html::image(asset(config('common.image_paths.user') . Auth::user()->images), Auth::user()->name, ['class' => 'profile-img img-fluid']) }}
-                                    @endif
+                                @if (Auth::user()->images == null)
+                                    {{ Html::image(asset(config('common.img') . 'thumb-3.jpg'), Auth::user()->name, ['class' => 'profile-img img-fluid']) }}
+                                @else
+                                    {{ Html::image(asset(config('common.image_paths.user') . Auth::user()->images), Auth::user()->name, ['class' => 'profile-img img-fluid']) }}
+                                @endif
                             </a>
                             <ul class="dropdown-menu dropdown-md p-v-0">
                                 <li>
@@ -152,6 +132,8 @@
 <script src="{{ asset('bower_components/demo-bower/confession/user/js/vendor.js') }}"></script>
 
 <script src="{{ asset('bower_components/demo-bower/confession/user/js/app.min.js') }}"></script>
+
+<script src="{{ asset('bower_components/demo-bower/confession/user/js/pusher.min.js') }}"></script>
 
 <!-- page js -->
 

@@ -44,6 +44,53 @@ $('#title').on('keyup', function () {
     document.getElementById('slug').value = slug;
 });
 
+/* pusher comment*/
+$(document).ready(function () {
+    var notificationsWrapper = $('.dropdown-notifications');
+    var notificationsToggle = notificationsWrapper.find('a[data-toggle]');
+    var notificationsCountElem = notificationsToggle.find('i[data-count]');
+    var notificationsCount = parseInt(notificationsCountElem.data('count'));
+    var notifications = notificationsWrapper.find('ul.dropdown-lg');
+    var auth = $('#auth_id').val();
+
+    // Enable pusher logging - don't include this in production
+    Pusher.logToConsole = true;
+
+    var pusher = new Pusher('78e50552842a83edf0c5', {
+        cluster: 'ap1',
+        encrypted: true
+    });
+
+    // Subscribe to the channel we specified in our Laravel Event
+    var channel = pusher.subscribe('CommentEvent');
+
+    // Bind a function to a Event (the full Laravel class)
+
+    channel.bind('send-comment', function (data) {
+        var postUser = data.users;
+
+        if (auth == postUser) {
+            var existingNotifications = notifications.html();
+            var avatar = Math.floor(Math.random() * (71 - 20 + 1)) + 20;
+            var newNotificationHtml = `<li class="list-item border bottom">
+                                                    <a href="" class="media-hover p-15">
+                                                        <div class="info">
+                                                            <span class="title">` + data.user_id + `</span>
+                                                            commented in
+                                                            <span class="title">` + data.post_id + `</span>
+                                                        </div>
+                                                    </a>
+                                                </li>`;
+            notifications.html(newNotificationHtml + existingNotifications);
+
+            notificationsCount += 1;
+            notificationsCountElem.attr('data-count', notificationsCount);
+            notificationsWrapper.find('.counter').text(notificationsCount);
+            notificationsWrapper.show();
+        }
+    });
+});
+
 function postComment(post_id) {
     var form = $('#comment_form_' + post_id);
     var formdata = form.serialize();
@@ -119,6 +166,53 @@ function deleteComment(comment_id, post_id) {
         });
 }
 
+/* pusher like*/
+$(document).ready(function () {
+    var notificationsWrapper = $('.dropdown-notifications');
+    var notificationsToggle = notificationsWrapper.find('a[data-toggle]');
+    var notificationsCountElem = notificationsToggle.find('i[data-count]');
+    var notificationsCount = parseInt(notificationsCountElem.data('count'));
+    var notifications = notificationsWrapper.find('ul.dropdown-lg');
+    var auth = $('#auth_id').val();
+
+    // Enable pusher logging - don't include this in production
+    Pusher.logToConsole = true;
+
+    var pusher = new Pusher('78e50552842a83edf0c5', {
+        cluster: 'ap1',
+        encrypted: true
+    });
+
+    // Subscribe to the channel we specified in our Laravel Event
+    var channel = pusher.subscribe('LikeEvent');
+
+    // Bind a function to a Event (the full Laravel class)
+
+    channel.bind('like-post', function (data) {
+        var postUser = data.users;
+
+        if (auth == postUser) {
+            var existingNotifications = notifications.html();
+            var avatar = Math.floor(Math.random() * (71 - 20 + 1)) + 20;
+            var newNotificationHtml = `<li class="list-item border bottom">
+                                                    <a href="" class="media-hover p-15">
+                                                        <div class="info">
+                                                            <span class="title">` + data.user_id + `</span>
+                                                            liked in
+                                                            <span class="title">` + data.post_id + `</span>
+                                                        </div>
+                                                    </a>
+                                                </li>`;
+            notifications.html(newNotificationHtml + existingNotifications);
+
+            notificationsCount += 1;
+            notificationsCountElem.attr('data-count', notificationsCount);
+            notificationsWrapper.find('.counter').text(notificationsCount);
+            notificationsWrapper.show();
+        }
+    });
+});
+
 /* Like */
 $(document).on('click', '.like', function () {
     var post_id = $(this).data('postid');
@@ -189,6 +283,52 @@ $(document).on('click', '.dislike', function () {
     });
 });
 
+/* pusher report*/
+$(document).ready(function () {
+    var notificationsWrapper = $('.dropdown-notifications');
+    var notificationsToggle = notificationsWrapper.find('a[data-toggle]');
+    var notificationsCountElem = notificationsToggle.find('i[data-count]');
+    var notificationsCount = parseInt(notificationsCountElem.data('count'));
+    var notifications = notificationsWrapper.find('ul.dropdown-lg');
+    var auth = $('#auth_id').val();
+
+    // Enable pusher logging - don't include this in production
+    Pusher.logToConsole = true;
+
+    var pusher = new Pusher('78e50552842a83edf0c5', {
+        cluster: 'ap1',
+        encrypted: true
+    });
+
+    // Subscribe to the channel we specified in our Laravel Event
+    var channel = pusher.subscribe('ReportEvent');
+
+    // Bind a function to a Event (the full Laravel class)
+
+    channel.bind('report-post', function (data) {
+        var postUser = data.users;
+
+        if (auth == postUser) {
+            var existingNotifications = notifications.html();
+            var avatar = Math.floor(Math.random() * (71 - 20 + 1)) + 20;
+            var newNotificationHtml = `<li class="list-item border bottom">
+                                                    <a href="' + route('posts.show') + '" class="media-hover p-15">
+                                                        <div class="info">
+                                                            <span class="title">` + data.user_id + `</span>
+                                                            reported in
+                                                            <span class="title">` + data.post_id + `</span>
+                                                        </div>
+                                                    </a>
+                                                </li>`;
+            notifications.html(newNotificationHtml + existingNotifications);
+
+            notificationsCount += 1;
+            notificationsCountElem.attr('data-count', notificationsCount);
+            notificationsWrapper.find('.counter').text(notificationsCount);
+            notificationsWrapper.show();
+        }
+    });
+});
 
 /* Report */
 $(document).on('click', '.report', function () {

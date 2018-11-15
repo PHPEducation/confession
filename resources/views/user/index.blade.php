@@ -387,8 +387,6 @@
     {{ Form::hidden('message_yes', __('message.yes'), ['id' => 'message_yes']) }}
     {{ Form::hidden('message_no', __('message.no'), ['id' => 'message_no']) }}
     {{ Form::hidden('config', asset(config('common.img') . 'avatar-5.png'), ['id' => 'config']) }}
-    {{--{{ Form::hidden('follow', __('message.follow'), ['id' => 'follow']) }}--}}
-    {{--{{ Form::hidden('following', __('message.following'), ['id' => 'following']) }}--}}
     <!-- Content Wrapper END -->
 @endsection
 
@@ -400,4 +398,8 @@
 
     @routes
     <script src="{{ asset('js/user.js') }}" type="text/javascript"></script>
+
+    <script type="text/javascript">
+
+    </script>
 @endsection

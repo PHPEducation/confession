@@ -4,10 +4,13 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Requests\CommentRequest;
 use App\Models\Comment;
+use App\Models\Post;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use DB;
+use Pusher\Pusher;
 
 class CommentController extends Controller
 {
@@ -40,10 +43,33 @@ class CommentController extends Controller
     public function store(CommentRequest $request)
     {
         $user = Auth::user();
+
+        $post = Post::findOrFail($request->post_id);
+        $users = User::findOrFail($request->user_id);
+
+        $data['post_id'] = $post->title;
+        $data['user_id'] = $users->name;
+        $data['body'] = $request->body;
+        $data['users'] = $post->user_id;
+
+        $options = [
+            'cluster' => 'ap1',
+            'encrypted' => true,
+        ];
+
+        $pusher = new Pusher(
+            env('PUSHER_APP_KEY'),
+            env('PUSHER_APP_SECRET'),
+            env('PUSHER_APP_ID'),
+            $options
+        );
+
+        $pusher->trigger('CommentEvent', 'send-comment', $data);
+
         Comment::create([
             'post_id' => $request->post_id,
-            'user_id' => $user->id,
-            'body' => $request->body,
+            'user_id' => $request->user_id,
+            'body' => $data['body'],
         ]);
 
         $comment = Comment::where('post_id', $request->post_id)
