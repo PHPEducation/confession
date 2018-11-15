@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\User;
 
 use App\Models\Follow;
+use App\Models\User;
 use App\Repositories\Contracts\FollowRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Pusher\Pusher;
 
 class FollowController extends Controller
 {
@@ -45,7 +47,25 @@ class FollowController extends Controller
      */
     public function store(Request $request)
     {
-//        dd($request->type);
+        $user = User::findOrFail($request->user_id);
+
+        $data['user_id'] = $user->name;
+        $data['users'] = $request->id;
+
+        $options = [
+            'cluster' => 'ap1',
+            'encrypted' => true,
+        ];
+
+        $pusher = new Pusher(
+            env('PUSHER_APP_KEY'),
+            env('PUSHER_APP_SECRET'),
+            env('PUSHER_APP_ID'),
+            $options
+        );
+
+        $pusher->trigger('FollowEvent', 'follow', $data);
+
         $follow = $this->follow->store([
             'follow_id' => $request->id,
             'follow_type' => $request->type,
