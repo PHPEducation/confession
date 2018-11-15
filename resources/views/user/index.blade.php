@@ -73,12 +73,10 @@
                                             <ul class="icon">
                                                 @if (Auth::check())
                                                     <li>
-                                                        {{--                                                        @dd(ic->followed($topic->id, Auth::id()))--}}
-                                                        {{--@dd($topic->id$top)--}}
                                                         @if ($topic->followed($topic->id))
                                                             <i id="following_{{ $topic->id }}"
                                                                class="btn btn-info btn-rounded btn-xs following"
-                                                               data-topicid="{{ $topic->id }}"
+                                                               data-id="{{ $topic->id }}"
                                                                data-userid="{{ Auth::user()->id }}"
                                                                data-type="App\Models\Topic">
                                                                 {{ trans('message.following') }}
@@ -86,7 +84,7 @@
                                                         @else
                                                             <i id="follow_{{ $topic->id }}"
                                                                class="btn btn-info btn-rounded btn-xs follow"
-                                                               data-topicid="{{ $topic->id }}"
+                                                               data-id="{{ $topic->id }}"
                                                                data-userid="{{ Auth::user()->id }}"
                                                                data-type="App\Models\Topic">
                                                                 {{ trans('message.follow') }}
@@ -242,7 +240,7 @@
                                         <a class="text-gray font-size-16" title="Comment">
                                             <i class="ti-comments text-success p-r-5"></i>
                                         </a>
-                                        <span class="countComment">{{ DB::table('comments')->where([['post_id', $post->id], ['deleted_at', '=', null]])->count() }}</span>
+                                        <span id="countComment_{{ $post->id }}">{{ DB::table('comments')->where([['post_id', $post->id], ['deleted_at', '=', null]])->count() }}</span>
                                     </li>
                                     @if (Auth::check())
                                         <li class="m-r-20">
@@ -298,7 +296,8 @@
                                             @if (Auth::check())
                                                 @if (Auth::user()->id == $comment->users->id)
                                                     <a data-id="{{ $comment->id }}" class="text-danger btnDelete"
-                                                       title="Delete" onclick="deleteComment({{ $comment->id }})"><i
+                                                       title="Delete" data-postid="{{ $post->id }}"
+                                                       onclick="deleteComment({{ $comment->id . ',' . $post->id }})"><i
                                                                 class="fa fa-trash"></i></a>
                                                 @endif
                                             @endif
@@ -338,20 +337,42 @@
                         <div class="card-body">
                             <h4 class="card-title m-b-25">{{ __('message.friends') }}</h4>
                             <ul class="list-media">
-                                <li class="list-item">
-                                    <div class="p-b-15">
-                                        <div class="media-img">
-                                            {{ Html::image(asset(config('common.img') . 'avatar-5.png')) }}
-                                        </div>
-                                        <div class="info">
-                                            <a href=""><span class="title">name</span></a>
-                                            <span class="sub-title"><span>@</span>nick_name</span>
-                                            <div id="follow_user">
-                                                {{ Form::button('<i class="fa fa-plus"></i>' . __('message.follow'), ['onclick' => 'followUser()', 'class' => 'btn btn-info btn-rounded btn-outline btn-xs']) }}
+                                {{--@dd($users)--}}
+                                @foreach($users as $user)
+                                    <li class="list-item">
+                                        <div class="p-b-15">
+                                            <div class="media-img">
+                                                {{ Html::image(asset(config('common.img') . 'avatar-5.png')) }}
+                                            </div>
+                                            <div class="info">
+                                                <a href=""><span class="title">{{ $user->name }}</span></a>
+                                                <span class="sub-title"><span>@</span>{{ $user->nick_name }}</span>
+                                                <div id="follow_user">
+                                                    {{--data-user: la user duoc theo doi, data-userid: la user theo doi--}}
+                                                    @if (Auth::check())
+                                                        @if ($user->followed($user->id))
+                                                            <i id="followingUser_{{ $user->id }}"
+                                                               class="btn btn-info btn-rounded btn-outline btn-xs followingUser"
+                                                               data-id="{{ $user->id }}"
+                                                               data-userid="{{ Auth::user()->id }}"
+                                                               data-type="App\Models\User">
+                                                                {{ trans('message.following') }}
+                                                            </i>
+                                                        @else
+                                                            <i id="followUser_{{ $user->id }}"
+                                                               class="btn btn-info btn-rounded btn-xs followUser"
+                                                               data-id="{{ $user->id }}"
+                                                               data-userid="{{ Auth::user()->id }}"
+                                                               data-type="App\Models\User">
+                                                                {{ trans('message.follow') }}
+                                                            </i>
+                                                        @endif
+                                                    @endif
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </li>
+                                    </li>
+                                @endforeach
                             </ul>
                         </div>
                         <div class="border top p-v-15 p-h-20 text-center">

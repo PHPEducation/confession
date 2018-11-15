@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Repositories\Contracts\PostRepository;
 use App\Repositories\Contracts\TopicRepository;
+use App\Repositories\Contracts\UserRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -11,11 +12,13 @@ class HomeController extends Controller
 {
     protected $topic;
     protected $post;
+    protected $user;
 
-    public function __construct(TopicRepository $topic, PostRepository $post)
+    public function __construct(TopicRepository $topic, PostRepository $post, UserRepository $user)
     {
         $this->topic = $topic;
         $this->post = $post;
+        $this->user = $user;
     }
 
     /**
@@ -28,8 +31,9 @@ class HomeController extends Controller
         $topicAll = $this->topic->all();
         $topics = $this->topic->getAllEnable();
         $posts = $this->post->getAll();
+        $users = $this->user->getAllUser();
 
-        return view('user.index', compact('topicAll', 'posts', 'topics'));
+        return view('user.index', compact('topicAll', 'posts', 'topics', 'users'));
     }
 
     /**
