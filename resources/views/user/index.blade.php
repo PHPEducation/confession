@@ -320,7 +320,7 @@
                                             @endif
                                         </a>
                                         <div class="media-body">
-                                            @if (Auth::id() == $post->users->id)
+                                            @if (Auth::id() == $comment->users->id)
                                                 <span class="title">
                                                     <a href="{{ route('profiles.index') }}">
                                                         {{ $comment->users->name }}
@@ -328,7 +328,7 @@
                                                 </span>
                                             @else
                                                 <span class="title">
-                                                    <a href="{{ route('detailUser', $post->users->id) }}">
+                                                    <a href="{{ route('detailUser', $comment->users->id) }}">
                                                         {{ $comment->users->name }}
                                                     </a> -
                                                 </span>

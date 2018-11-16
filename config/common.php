@@ -11,5 +11,6 @@ return [
         'user' => 'storage/images/user/',
     ],
     'topics' => 'storage/images/topics/',
+    'paginate' => 5,
 ];
 ?>

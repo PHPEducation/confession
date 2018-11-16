@@ -20,9 +20,13 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $posts = $this->post->getAll();
+        $posts = $this->post->getAllPaginate();
+
+        if ($request->ajax()) {
+            return view('admin.post.pagination_data', ['posts' => $posts])->render();
+        }
 
         return view('admin.post.index', compact('posts'));
     }
