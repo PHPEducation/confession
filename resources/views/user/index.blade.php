@@ -93,7 +93,7 @@
                                                     </li>
                                                 @endif
                                                 <li>
-                                                    <a class="btn btn-info btn-rounded btn-xs" href="{{ route('topics.show', $topic->id) }}"><i class="fa fa-link"></i> </a>
+                                                    <a class="btn btn-info btn-rounded btn-xs" href="{{ route('topic.show', $topic->id) }}"><i class="fa fa-link"></i> </a>
                                                 </li>
                                             </ul>
                                         </div>
@@ -102,7 +102,7 @@
                             </div>
                         </div>
                         <div class="border top p-v-15 p-h-20 text-center">
-                            <a href="{{ route('topics.index') }}" class="text-semibold text-dark d-block">{{ __('message.more') }}</a>
+                            <a href="{{ route('topic.index') }}" class="text-semibold text-dark d-block">{{ __('message.more') }}</a>
                         </div>
                     </div>
                 </div>

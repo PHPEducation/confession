@@ -52,7 +52,7 @@
                                 <b class="font-size-15">
                                     {{ $post->title }} &nbsp; <i class="fa fa-caret-right font-size-17"
                                                                  aria-hidden="true"></i> &nbsp;
-                                    <a href="#">{{ $post->topic->name }}</a>
+                                    <a href="{{ route('topic.show', $topic->id) }}">{{ $post->topic->name }}</a>
                                 </b>
                                 <p class="font-size-13 m-t-10">{{ $post->body }}</p>
                                 <ul class="list-inline m-t-20 p-v-15">

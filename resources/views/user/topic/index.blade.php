@@ -47,7 +47,7 @@
                                         @endif
                                         <li>
                                             <a class="btn btn-info btn-rounded btn-xs"
-                                               href="{{ route('topics.show', $topic->id) }}"><i class="fa fa-link"></i>
+                                               href="{{ route('topic.show', $topic->id) }}"><i class="fa fa-link"></i>
                                             </a>
                                         </li>
                                     </ul>

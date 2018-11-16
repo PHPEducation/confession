@@ -113,6 +113,7 @@
             </div>
 
             <div class="row">
+                <div class="col-sm-2"></div>
                 <div class="col-sm-8">
                     @foreach($posts as $post)
                         <div class="card">
@@ -271,18 +272,7 @@
                         </div>
                     @endforeach
                 </div>
-                <div class="col-sm-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <img class="img-fluid d-block mx-auto" src="{{ asset(config('common.img') . 'bell.png') }}"
-                                 alt="">
-                            <div class="text-center">
-                                <h5 class="text-dark font-size-18"><b>{{ __('message.follow') }}</b></h5>
-                                <button class="btn btn-info m-t-20">{{ __('message.subscribe') }}</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <div class="col-sm-2"></div>
             </div>
         </div>
     </div>
