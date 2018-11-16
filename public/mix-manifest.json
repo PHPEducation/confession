@@ -3,5 +3,6 @@
     "/css/app.css": "/css/app.css",
     "/js/user.js": "/js/user.js",
     "/js/admin.js": "/js/admin.js",
-    "/js/upload_file.js": "/js/upload_file.js"
+    "/js/upload_file.js": "/js/upload_file.js",
+    "/js/editable_name.js": "/js/editable_name.js"
 }

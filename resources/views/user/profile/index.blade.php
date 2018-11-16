@@ -31,9 +31,9 @@
                         <div class="col-sm-3 text-center">
                             <div class="">
                                 @if (Auth::user()->images == null)
-                                    {{ Html::image(asset(config('common.img') . 'thumb-3.jpg'), '', ['class' => 'img-fluid rounded-circle d-block mx-auto']) }}
+                                    {{ Html::image(asset(config('common.img') . 'thumb-3.jpg'), '', ['class' => 'img-fluid rounded-circle d-block mx-auto width']) }}
                                 @else
-                                    {{ Html::image(asset(config('common.image_paths.user') . Auth::user()->images), '', ['class' => 'img-fluid rounded-circle d-block mx-auto']) }}
+                                    {{ Html::image(asset(config('common.image_paths.user') . Auth::user()->images), '', ['class' => 'img-fluid rounded-circle d-block mx-auto width']) }}
                                 @endif
                             </div>
                             <div class="m-t-15">

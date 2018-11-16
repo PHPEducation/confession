@@ -187,7 +187,12 @@
                                                     <span class="title">F-Confession</span>
                                                     <span class="sub-title">@Anomyous</span>
                                                     <div class="float-item">
-                                                        <span>{{ $post->created_at }}</span>
+                                                        @php
+                                                            $created_at = $post->created_at;
+                                                            $created_at = \Carbon\Carbon::parse($created_at);
+                                                            $elapsed = $created_at->diffForHumans(\Carbon\Carbon::now());
+                                                        @endphp
+                                                        <span>{{ $elapsed }}</span>
                                                     </div>
                                                 </div>
                                             @else
@@ -232,7 +237,7 @@
                                     {{ $post->title }}
                                 </a>
                                 &nbsp <i class="fa fa-caret-right font-size-17" aria-hidden="true"></i> &nbsp;
-                                <a href="{{ route('topics.show', $post->topic->id) }}">
+                                <a href="{{ route('topic.show', $post->topic->id) }}">
                                     {{ $post->topic->name }}
                                 </a>
                                 <p class="m-b-15">{{ $post->body }}</p>
