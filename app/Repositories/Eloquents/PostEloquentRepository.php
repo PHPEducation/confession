@@ -17,7 +17,7 @@ class PostEloquentRepository extends AbstractEloquentRepository implements PostR
     public function getAll($data = [])
     {
         // TODO: Implement getAll() method.
-        return $this->model()->with('topic')->where('type', '=', 1)->get();
+        return $this->model()->orderBy('id', 'desc')->get();
     }
 
     public function store($data = [])
@@ -47,6 +47,15 @@ class PostEloquentRepository extends AbstractEloquentRepository implements PostR
         $data = $this->model()->with('topic')->where([
             ['user_id', '=', $id],
             ['type', '=', 1],
+        ])->get();
+
+        return $data;
+    }
+
+    public function getAllOfTopic($id, $data = [])
+    {
+        $data = $this->model()->with('topic')->where([
+            ['topic_id', '=', $id],
         ])->get();
 
         return $data;

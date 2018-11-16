@@ -72,6 +72,7 @@ class FollowController extends Controller
             'user_id' => $request->user_id,
             'type' => 1,
         ]);
+
         return response()->json([
             'error' => false,
             'message' => __('message.success'),

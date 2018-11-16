@@ -21,6 +21,8 @@ class CommentEvent
 
     public $body;
 
+    public $url;
+
     //nguoi nhan thong bao
     public $users;
     /**
@@ -34,6 +36,7 @@ class CommentEvent
         $this->user = $data['user_id'];
         $this->body = $data['body'];
         $this->users = $data['users'];
+        $this->url = $data['url'];
     }
 
     /**
