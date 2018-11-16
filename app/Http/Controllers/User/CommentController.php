@@ -51,6 +51,7 @@ class CommentController extends Controller
         $data['user_id'] = $users->name;
         $data['body'] = $request->body;
         $data['users'] = $post->user_id;
+        $data['url'] = $request->url;
 
         $options = [
             'cluster' => 'ap1',

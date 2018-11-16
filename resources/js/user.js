@@ -73,7 +73,7 @@ $(document).ready(function () {
             var existingNotifications = notifications.html();
             var avatar = Math.floor(Math.random() * (71 - 20 + 1)) + 20;
             var newNotificationHtml = `<li class="list-item border bottom">
-                                            <a href="" class="media-hover p-15">
+                                            <a href="` + data.url + `" class="media-hover p-15">
                                                 <div class="info">
                                                     <span class="title">` + data.user_id + `</span>
                                                     commented in
@@ -95,7 +95,6 @@ function postComment(post_id) {
     var form = $('#comment_form_' + post_id);
     var formdata = form.serialize();
     var config = $('#config').val();
-    var url = $('#url').val();
 
     $.ajaxSetup({
         headers: {'X-CSRF-Token': $('meta[name=_token]').attr('content')}
@@ -158,6 +157,40 @@ function deleteComment(comment_id, post_id) {
                     $('#comment' + comment_id).remove();
                     var count = $('#countComment_' + post_id).html();
                     $('#countComment_' + post_id).html(parseFloat(count) - 1);
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    //
+                }
+            });
+        });
+}
+
+function deletePost(post_id) {
+    var delete_comment = $('#message_delete_post').val();
+    var yes = $('#message_yes').val();
+    var no = $('#message_no').val();
+
+    swal({
+            title: delete_comment,
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#DD6B55',
+            cancelButtonText: no,
+            confirmButtonText: yes,
+        },
+        function () {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            $.ajax({
+                type: 'DELETE',
+                url: route('posts.destroy', post_id),
+                success: function (res) {
+                    console.log(res);
+                    $('#post' + comment_id).remove();
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
                     //

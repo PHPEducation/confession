@@ -92,6 +92,9 @@
                                                         @endif
                                                     </li>
                                                 @endif
+                                                <li>
+                                                    <a class="btn btn-info btn-rounded btn-xs" href="{{ route('topics.show', $topic->id) }}"><i class="fa fa-link"></i> </a>
+                                                </li>
                                             </ul>
                                         </div>
                                     </div>
@@ -99,7 +102,7 @@
                             </div>
                         </div>
                         <div class="border top p-v-15 p-h-20 text-center">
-                            <a href="" class="text-semibold text-dark d-block">{{ __('message.more') }}</a>
+                            <a href="{{ route('topics.index') }}" class="text-semibold text-dark d-block">{{ __('message.more') }}</a>
                         </div>
                     </div>
                 </div>
@@ -155,7 +158,7 @@
                                         </div>
                                         <div class="row m-b-5">
                                             <div class="col-md-4">
-                                                {{ Form::select('type', ['0' => __('message.anomyous')], '0', ['class' => 'form-control', 'placeholder' => __('message.select_type')]) }}
+                                                {{ Form::select('topic', $topicAll, '', ['class' => 'form-control', 'placeholder' => __('message.select_topic')]) }}
                                             </div>
                                             <div class="col-md-4">
                                                 {{ Form::file('filename[]', ['id' => 'images', 'multiple']) }}
@@ -172,7 +175,7 @@
                     </div>
                     <div class="card">
                         @foreach ($posts as $key => $post)
-                            <div class="feed-header">
+                            <div class="feed-header" id="post{{ $post->id }}">
                                 <ul class="list-media">
                                     <li class="list-item">
                                         <div class="p-h-30 p-t-30">
@@ -229,7 +232,7 @@
                                     {{ $post->title }}
                                 </a>
                                 &nbsp <i class="fa fa-caret-right font-size-17" aria-hidden="true"></i> &nbsp;
-                                <a href="#">
+                                <a href="{{ route('topics.show', $post->topic->id) }}">
                                     {{ $post->topic->name }}
                                 </a>
                                 <p class="m-b-15">{{ $post->body }}</p>
@@ -297,9 +300,9 @@
                                             @endif
                                         </li>
                                     @endif
-                                    @if (Auth::check())
+                                    @if (Auth::id() == $post->user_id)
                                         <li class="m-r-20">
-                                            <a href="" class="text-gray font-size-16" title="Delete">
+                                            <a onclick="deletePost({{ $post->id }})" data-postid="{{ $post->id }} class="text-gray font-size-16" title="Delete">
                                                 <i class="ti-trash text-danger p-r-5"></i>
                                             </a>
                                         </li>
@@ -350,6 +353,7 @@
                                     {{ Form::open(['method' => 'POST', 'id' => 'comment_form_'. $post->id]) }}
                                     {!! Form::hidden('post_id', $post->id, ['id' => 'post_id']) !!}
                                     {!! Form::hidden('user_id', Auth::user()->id, ['id' => 'user_id']) !!}
+                                        {!! Form::hidden('url', route('posts.show', $post->id), ['id' => 'url' . $post->id]) !!}
                                     <div class="social-comment">
                                         <a href="#" class="pull-left">
                                             @if (Auth::user()->images == null)
@@ -438,10 +442,10 @@
         </div>
     </div>
     {{ Form::hidden('message_delete_comment', __('message.delete_comment'), ['id' => 'message_delete_comment']) }}
+    {{ Form::hidden('message_delete_post', __('message.delete_post'), ['id' => 'message_delete_post']) }}
     {{ Form::hidden('message_yes', __('message.yes'), ['id' => 'message_yes']) }}
     {{ Form::hidden('message_no', __('message.no'), ['id' => 'message_no']) }}
     {{ Form::hidden('config', asset(config('common.img') . 'avatar-5.png'), ['id' => 'config']) }}
-    {{ Form::hidden('url', asset(config('common.image_paths.user')), ['id' => 'url']) }}
     <!-- Content Wrapper END -->
 @endsection
 

@@ -13,4 +13,6 @@ interface PostRepository extends AbstractRepository
     public function delete($id);
 
     public function getAllOfUser($id, $data = []);
+
+    public function getAllOfTopic($id, $data = []);
 }

@@ -94,18 +94,10 @@ class PostController extends Controller
                 'slug' => Str::slug($request->get('title'), '-'),
                 'body' => $request->get('body'),
                 'user_id' => null,
-                'topic_id' => null,
+                'topic_id' => $request->get('topic'),
                 'type' => 0,
             ]);
-            $post = Post::orderBy('id', 'desc')->first();
-            Like::create([
-                'post_id' => $post->id,
-                'type' => 0,
-            ]);
-            Report::create([
-                'post_id' => $post->id,
-                'type' => 0,
-            ]);
+
             if ($request->hasFile('filename')) {
                 $images = $request->file('filename');
                 foreach ($images as $image) {
@@ -181,6 +173,12 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $posts = $this->post->delete($id);
+
+        return response()->json([
+            'error' => false,
+            'message' => __('message.delete_success'),
+            'data' => $posts,
+        ]);
     }
 }
