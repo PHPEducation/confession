@@ -23,9 +23,13 @@ class PermissionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $permissions = $this->permission->getAll();
+
+        if ($request->ajax()) {
+            return view('admin.permission.pagination_data_permission', ['permissions' => $permissions])->render();
+        }
 
         return view('admin.permission.index', compact('permissions'));
     }

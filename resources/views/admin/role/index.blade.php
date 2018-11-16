@@ -110,25 +110,9 @@
           rel="stylesheet" type="text/css"/>
     <script src="{{ asset('bower_components/demo-bower/confession/admin/assets/global/plugins/bootstrap-editable/bootstrap-editable/js/bootstrap-editable.js') }}"
             type="text/javascript"></script>
+    <script src="{{ asset('js/editable_name.js') }}" type="text/javascript"></script>
     <script>
-        // $.fn.editable.defaults.mode = 'inline';
-        $(document).ready(function () {
-            $('.testEdit').editable({
-                params: function (params) {
-                    // add additional params from data-attributes of trigger element
-                    params._token = $('#_token').data('token');
-                    params.name = $(this).editable().data('name');
-
-                    return params;
-                },
-                error: function (response, newValue) {
-                    if (response.status === 500) {
-                        return trans('message.server_error');
-                    } else {
-                        return response.responseText;
-                    }
-                }
-            });
-        });
+        //goi ham nay o editable_name.js. Ham co chuc nang edit truc tiep o index.
+        editable_name();
     </script>
 @endsection

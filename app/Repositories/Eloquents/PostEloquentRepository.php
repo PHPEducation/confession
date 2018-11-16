@@ -20,6 +20,11 @@ class PostEloquentRepository extends AbstractEloquentRepository implements PostR
         return $this->model()->orderBy('id', 'desc')->get();
     }
 
+    public function getAllPaginate($data = [])
+    {
+        return $this->model()->with('topic')->paginate(config('common.paginate'));
+    }
+
     public function store($data = [])
     {
         // TODO: Implement store() method.

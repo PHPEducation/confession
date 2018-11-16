@@ -42,7 +42,7 @@ class RoleController extends Controller
      */
     public function create()
     {
-        $permissions = $this->permission->getAll()->pluck('name', 'id');
+        $permissions = $this->permission->getAllNotPagination()->pluck('name', 'id');
 
         return view('admin.role.create', compact('permissions'));
     }

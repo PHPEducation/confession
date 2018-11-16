@@ -42,61 +42,9 @@
                            class="btn blue mt-ladda-btn ladda-button btn-circle">
                             {{ trans('message.btn_create') }} </a>
                     </div>
-                    <div class="table-scrollable">
-                        {!! Form::open(['route' => 'permissions/bulk_update', 'method' => 'POST', 'class' => 'form-inline']) !!}
-                        <div id="_token" class="hidden" data-token="{{ csrf_token() }}"></div>
-                        <table class="table table-striped table-bordered table-advance table-hover">
-                            <thead>
-                            <tr>
-                                <th>
-                                    <i class="fa fa-bookmark-o"> </i> {{ trans('message.permission_name') }}
-                                </th>
-                                <th>
-                                    <i class="fa fa-bookmark-o"> </i> {{ trans('message.permission_display_name') }}
-                                </th>
-                                <th>
-                                    <i class="fa fa-bookmark-o"> </i> {{ trans('message.permission_desc') }}
-                                </th>
-                                <th>
-                                    <i class="fa fa-calendar-check-o"> </i> {{ trans('message.created_at') }}
-                                </th>
-                                <th></th>
-                            </tr>
-                            </thead>
-
-                            <tbody>
-                            @foreach($permissions as $permission)
-                                <tr>
-                                    <td class="highlight">
-                                        @if($permission->id % 3 == 0)
-                                            <div class="success"></div>
-                                        @elseif($permission->id % 3 == 1)
-                                            <div class="info"></div>
-                                        @elseif($permission->id % 3 == 2)
-                                            <div class="warning"></div>
-                                        @endif
-                                        <a href="#" class="testEdit" data-type="text" data-column="name"
-                                           data-url="{{ route('permissions/update', ['id' => $permission->id]) }}"
-                                           data-pk="{{ $permission->id }}" data-title="change" data-name="name">
-                                            {{ $permission->name }}
-                                        </a>
-                                    </td>
-                                    <td>{{ $permission->display_name }}</td>
-                                    <td>{{ $permission->description }}</td>
-                                    <td>{{ $permission->created_at }}</td>
-                                    <td>
-                                        <a href="{{ route('permissions.edit', $permission->id) }}"
-                                           class="btn btn-outline btn-circle btn-sm purple">
-                                            <i class="fa fa-edit"></i> {{ trans('message.btn_edit') }} </a>
-                                        {!! Form::open(['method' => 'DELETE', 'class' => 'display_form', 'route' => ['permissions.destroy', 'id' => $permission->id]]) !!}
-                                        {!! Form::button('<i class="fa fa-trash-o"></i> ' . trans('message.btn_delete'), ['class' => 'btn btn-outline btn-circle btn-sm red-thunderbird', 'type' => 'submit']) !!}
-                                        {!! Form::close() !!}
-                                    </td>
-                                </tr>
-                            @endforeach
-                            </tbody>
-                        </table>
-                        {!! Form::close() !!}
+                    <div class="table-scrollable" id="table_data_permissions">
+                        {{--phân trang--}}
+                        @include('admin.permission.pagination_data_permission')
                     </div>
                 </div>
             </div>
@@ -110,27 +58,31 @@
           rel="stylesheet" type="text/css"/>
     <script src="{{ asset('bower_components/demo-bower/confession/admin/assets/global/plugins/bootstrap-editable/bootstrap-editable/js/bootstrap-editable.js') }}"
             type="text/javascript"></script>
+    <script src="{{ asset('js/editable_name.js') }}" type="text/javascript"></script>
     <script>
-        // $.fn.editable.defaults.mode = 'inline';
+        //goi ham nay o editable_name.js. Ham co chuc nang edit truc tiep o index.
+        editable_name();
+
+        //pagination
         $(document).ready(function () {
-            $('.testEdit').editable({
-                params: function (params) {
-                    // add additional params from data-attributes of trigger element
-                    params._token = $('#_token').data('token');
-                    params.name = $(this).editable().data('name');
-
-                    return params;
-                },
-                error: function (response, newValue) {
-                    if (response.status === 500) {
-
-                        return trans('message.server_error');
-                    } else {
-
-                        return response.responseText;
-                    }
-                }
-            });
+            $(document).on('click', '.pagination a', function (event) {
+                event.preventDefault();
+                var page = $(this).attr('href').split('page=')[1];
+                fetchData(page);
+            })
         });
+
+        function fetchData(page) {
+            $.ajax({
+                type: 'GET',
+                url: 'permissions?page=' + page,
+                success: function (data) {
+                    $('#table_data_permissions').html(data);
+
+                    // xử lý edit trực tiếp trên từng trang. Nếu không phân trang thì vứt nó ra ngoài
+                    editable_name();
+                }
+            })
+        }
     </script>
 @endsection

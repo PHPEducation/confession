@@ -17,6 +17,11 @@ class PermissionEloquentRepository extends AbstractEloquentRepository implements
     public function getAll($data = [])
     {
         // TODO: Implement getAll() method.
+        return $this->model()->paginate(config('common.paginate'));
+    }
+
+    public function getAllNotPagination($data = [])
+    {
         return $this->model()->all();
     }
 
