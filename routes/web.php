@@ -86,7 +86,7 @@ Route::group(['prefix' => 'cfs'], function () {
 
     Route::resource('/posts', 'User\PostController');
 
-    Route::resource('/topics', 'User\TopicController');
+    Route::resource('/topic', 'User\TopicController');
 
     Route::resource('/comments', 'User\CommentController');
 

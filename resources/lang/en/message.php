@@ -144,6 +144,7 @@ return [
     /* User */
     'anomyous' => 'Anonymous',
     'delete_comment' => 'Are you sure delete comment ?',
+    'delete_post' => 'Are you sure delete post ?',
     'email' => 'Email',
     'follow_me' => 'Follow Me On:',
     'follow' => 'Follow',
