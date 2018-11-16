@@ -26,6 +26,12 @@ class TopicEloquentRepository extends AbstractEloquentRepository implements Topi
         return $this->model()->where('status', '=', 1)->orderBy('created_at', 'desc')->get();
     }
 
+    //    lấy tất cả topic có status = 1 để in ra ngoài frontend có limit
+    public function getAllLimit($data = [])
+    {
+        return $this->model()->where('status', '=', 1)->orderBy('created_at', 'desc')->limit(3)->get();
+    }
+
 //    lấy tất cả topic có status = 1 để select
     public function all($data = [])
     {

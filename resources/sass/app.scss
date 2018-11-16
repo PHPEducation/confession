@@ -14,6 +14,7 @@
     box-shadow: 0 0 3px rgba(0, 0, 0, .3);
     position: relative;
     overflow: hidden;
+    padding-bottom: 10px;
     .icon {
         margin: 0;
         position: absolute;
@@ -337,6 +338,9 @@ tr {
         }
     }
 }
-.display_none{
+.display_none {
     display: none;
+}
+.width {
+    width: 100%;
 }

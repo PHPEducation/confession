@@ -29,7 +29,7 @@ class HomeController extends Controller
     public function index()
     {
         $topicAll = $this->topic->all();
-        $topics = $this->topic->getAllEnable();
+        $topics = $this->topic->getAllLimit();
         $posts = $this->post->getAll();
         $users = $this->user->getAllUser();
 
