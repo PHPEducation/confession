@@ -24,15 +24,15 @@
                                     <li class="list-item">
                                         <div class="p-h-30 p-t-30">
                                             <div class="media-img">
-                                                @if (Auth::user()->images == null)
+                                                @if ($post->users->images == null)
                                                     {{ Html::image(asset(config('common.img') . 'thumb-3.jpg'), '') }}
                                                 @else
-                                                    {{ Html::image(asset(config('common.image_paths.user') . Auth::user()->images)) }}
+                                                    {{ Html::image(asset(config('common.image_paths.user') . $post->users->images)) }}
                                                 @endif
                                             </div>
                                             <div class="info">
-                                                <span class="title">{{ Auth::user()->name }}</span>
-                                                <span class="">@</span>{{ Auth::user()->nick_name }}
+                                                <span class="title">{{ $post->users->name }}</span>
+                                                <span class="">@</span>{{ $post->users->nick_name }}
                                                 <div class="float-item">
                                                     {{--xu ly thoi gian thuc so voi thoi gian tao bai--}}
                                                     @php
@@ -56,29 +56,31 @@
                                 </b>
                                 <p class="font-size-13 m-t-10">{{ $post->body }}</p>
                                 <ul class="list-inline m-t-20 p-v-15">
-                                    <li class="m-r-25">
-                                        @if($post->liked($post->id))
-                                            <i id="unlike_{{ $post->id }}"
-                                               class="text-gray font-size-16 dislike"
-                                               title="" data-typeid=""
-                                               data-postid="{{ $post->id }}"
-                                               data-userid="{{ Auth::user()->id }}"
-                                               data-likeid="">
-                                                <i class="fa fa-thumbs-up text-info p-r-5"></i>
-                                            </i>
-                                            <span id="countLike_{{ $post->id }}">{{ DB::table('likes')->where([['post_id', $post->id], ['type', 1]])->count() }}</span>
-                                        @else
-                                            <i id="like_{{ $post->id }}"
-                                               class="text-gray font-size-16 like"
-                                               title="" data-typeid=""
-                                               data-postid="{{ $post->id }}"
-                                               data-userid="{{ Auth::user()->id }}"
-                                               data-likeid="">
-                                                <i class="fa fa-thumbs-o-up text-info p-r-5"></i>
-                                            </i>
-                                            <span id="countLike_{{ $post->id }}">{{ DB::table('likes')->where([['post_id', $post->id], ['type', 1]])->count() }}</span>
-                                        @endif
-                                    </li>
+                                    @if (Auth::check())
+                                        <li class="m-r-25">
+                                            @if($post->liked($post->id))
+                                                <i id="unlike_{{ $post->id }}"
+                                                   class="text-gray font-size-16 dislike"
+                                                   title="" data-typeid=""
+                                                   data-postid="{{ $post->id }}"
+                                                   data-userid="{{ Auth::user()->id }}"
+                                                   data-likeid="">
+                                                    <i class="fa fa-thumbs-up text-info p-r-5"></i>
+                                                </i>
+                                                <span id="countLike_{{ $post->id }}">{{ DB::table('likes')->where([['post_id', $post->id], ['type', 1]])->count() }}</span>
+                                            @else
+                                                <i id="like_{{ $post->id }}"
+                                                   class="text-gray font-size-16 like"
+                                                   title="" data-typeid=""
+                                                   data-postid="{{ $post->id }}"
+                                                   data-userid="{{ Auth::user()->id }}"
+                                                   data-likeid="">
+                                                    <i class="fa fa-thumbs-o-up text-info p-r-5"></i>
+                                                </i>
+                                                <span id="countLike_{{ $post->id }}">{{ DB::table('likes')->where([['post_id', $post->id], ['type', 1]])->count() }}</span>
+                                            @endif
+                                        </li>
+                                    @endif
 
                                     <li class="m-r-20">
                                         <a class="text-gray font-size-16" title="Comment">
@@ -87,35 +89,38 @@
                                         <span class="countComment">{{ DB::table('comments')->where([['post_id', $post->id], ['deleted_at', '=', null]])->count() }}</span>
                                     </li>
 
-                                    <li class="m-r-20">
-                                        @if($post->reported($post->id))
-                                            <i id="reported_{{ $post->id }}"
-                                               class="text-gray font-size-16 reported" title=""
-                                               data-typeid=""
-                                               data-postid="{{ $post->id }}"
-                                               data-userid="{{ Auth::user()->id }}"
-                                               data-reportid="">
-                                                <i class="fa fa-flag text-primary p-r-5"></i>
-                                            </i>
-                                            <span id="countReport_{{ $post->id }}">{{ DB::table('reports')->where([['post_id', $post->id], ['type', 1]])->count() }}</span>
-                                        @else
-                                            <i id="report_{{ $post->id }}"
-                                               class="text-gray font-size-16 report"
-                                               title="" data-typeid=""
-                                               data-postid="{{ $post->id }}"
-                                               data-userid="{{ Auth::user()->id }}"
-                                               data-reportid="">
-                                                <i class="fa fa-flag-o text-primary p-r-5"></i>
-                                            </i>
-                                            <span id="countReport_{{ $post->id }}">{{ DB::table('reports')->where([['post_id', $post->id], ['type', 1]])->count() }}</span>
+                                    @if (Auth::check())
+                                        <li class="m-r-20">
+                                            @if($post->reported($post->id))
+                                                <i id="reported_{{ $post->id }}"
+                                                   class="text-gray font-size-16 reported" title=""
+                                                   data-typeid=""
+                                                   data-postid="{{ $post->id }}"
+                                                   data-userid="{{ Auth::user()->id }}"
+                                                   data-reportid="">
+                                                    <i class="fa fa-flag text-primary p-r-5"></i>
+                                                </i>
+                                                <span id="countReport_{{ $post->id }}">{{ DB::table('reports')->where([['post_id', $post->id], ['type', 1]])->count() }}</span>
+                                            @else
+                                                <i id="report_{{ $post->id }}"
+                                                   class="text-gray font-size-16 report"
+                                                   title="" data-typeid=""
+                                                   data-postid="{{ $post->id }}"
+                                                   data-userid="{{ Auth::user()->id }}"
+                                                   data-reportid="">
+                                                    <i class="fa fa-flag-o text-primary p-r-5"></i>
+                                                </i>
+                                                <span id="countReport_{{ $post->id }}">{{ DB::table('reports')->where([['post_id', $post->id], ['type', 1]])->count() }}</span>
+                                            @endif
+                                        </li>
+                                        @if(Auth::id() == $post->users->id)
+                                            <li class="m-r-20">
+                                                <a href="" class="text-gray font-size-16" title="Delete">
+                                                    <i class="ti-trash text-danger p-r-5"></i>
+                                                </a>
+                                            </li>
                                         @endif
-                                    </li>
-
-                                    <li class="m-r-20">
-                                        <a href="" class="text-gray font-size-16" title="Delete">
-                                            <i class="ti-trash text-danger p-r-5"></i>
-                                        </a>
-                                    </li>
+                                    @endif
                                 </ul>
                             </div>
 
@@ -127,7 +132,7 @@
                                             @if ($comment->users->images == null)
                                                 {{ Html::image(asset(config('common.img') . 'avatar-5.png')) }}
                                             @else
-                                                {{ Html::image(asset(config('common.img') . $comment->users->images)) }}
+                                                {{ Html::image(asset(config('common.image_paths.user') . $comment->users->images)) }}
                                             @endif
                                         </a>
                                         <div class="media-body">
